@@ -17,8 +17,8 @@ public class Intake extends Subsystem {
 	public static boolean intake2Active = false;
 
 	public Intake() {
-		intake1 = new WPI_TalonSRX(2); // initialize left motors on port 12
-		intake2 = new WPI_TalonSRX(3);
+		intake1 = new WPI_TalonSRX(0); // initialize left motors on port 12
+		intake2 = new WPI_TalonSRX(1);
 		intakeSpin = new WPI_TalonSRX(11);
 	}
 		
@@ -30,8 +30,8 @@ public class Intake extends Subsystem {
 				intake1Active = true;
 			}
 			if(intake1Active){
-				intake1.set(-0.6);
-				intake2.set(0.6);
+				intake1.set(0.6);
+				intake2.set(-0.6);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
@@ -45,8 +45,8 @@ public class Intake extends Subsystem {
 			}
 
 			if(intake1Active){
-				intake1.set(-0.6);
-				intake2.set(0.6);
+				intake1.set(-1.0);
+				intake2.set(1.0);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
@@ -56,8 +56,8 @@ public class Intake extends Subsystem {
 
 	public void toggleIntakeSpin(Joystick secondaryStick){
 
-		intakeSpin.set(secondaryStick.getRawAxis(1));
-		intakeSpin.set(-secondaryStick.getRawAxis(5));
+		intakeSpin.set(secondaryStick.getRawAxis(3));
+		intakeSpin.set(-secondaryStick.getRawAxis(2));
 		
 	}
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {

@@ -10,7 +10,7 @@ public class OI {
 	public Joystick driveStick;
 	public Joystick secondaryStick;
 	
-	public OI() {
+	public OI() { 
 		driveStick = new Joystick(0);				//Logitech Dual Action
 		secondaryStick = new Joystick(1);
 		
