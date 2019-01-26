@@ -30,8 +30,8 @@ public class Intake extends Subsystem {
 				intake1Active = true;
 			}
 			if(intake1Active){
-				intake1.set(0.3);
-				intake2.set(-0.3);
+				intake1.set(1.0);
+				intake2.set(-1.0);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
@@ -45,8 +45,8 @@ public class Intake extends Subsystem {
 			}
 
 			if(intake1Active){
-				intake1.set(-1.0);
-				intake2.set(1.0);
+				intake1.set(-0.3);
+				intake2.set(0.3);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
