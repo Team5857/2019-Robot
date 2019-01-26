@@ -17,8 +17,8 @@ public class Intake extends Subsystem {
 	public static boolean intake2Active = false;
 
 	public Intake() {
-		intake1 = new WPI_TalonSRX(0); // initialize left motors on port 12
-		intake2 = new WPI_TalonSRX(1);
+		intake1 = new WPI_TalonSRX(9); // initialize left motors on port 12
+		intake2 = new WPI_TalonSRX(10);
 		intakeSpin = new WPI_TalonSRX(11);
 	}
 		
