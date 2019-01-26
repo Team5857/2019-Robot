@@ -26,7 +26,7 @@ public class Arm extends Subsystem {
 		rightarm.set(secondaryStick.getRawAxis(1));
 		
 	}
-
+//a
 	public void toggleArm(Joystick left, Joystick right)
 	{
 		Arm.leftarm.set(-left.getRawAxis(1));
