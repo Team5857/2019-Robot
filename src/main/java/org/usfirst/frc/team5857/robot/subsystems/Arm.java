@@ -1,20 +1,19 @@
 package org.usfirst.frc.team5857.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.*;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc.team5857.robot.commands.ToggleArm;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Arm extends Subsystem {
 	public static SpeedController leftarm;
 	public static SpeedController rightarm;
 
 	public Arm() {
-		leftarm = new WPI_TalonSRX(6);					//initialize left motors on port 12
+		leftarm = new WPI_TalonSRX(6); // initialize left motors on port 12
 		rightarm = new WPI_TalonSRX(5);
 
 	}
