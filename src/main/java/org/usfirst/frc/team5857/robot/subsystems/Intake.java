@@ -22,7 +22,7 @@ public class Intake extends Subsystem {
 	}
 		
 	public void toggleIntake(Joystick secondaryStick) {
-		if(secondaryStick.getRawButtonPressed(3)) {
+		if(secondaryStick.getRawButtonPressed(2)) {
 			if(intake1Active) {
 				intake1Active = false;
 			} else {
@@ -36,7 +36,7 @@ public class Intake extends Subsystem {
 				intake2.set(0);
 			}
 		}
-		if(secondaryStick.getRawButtonPressed(2)) {
+		if(secondaryStick.getRawButtonPressed(3)) {
 			if(intake1Active) {
 				intake1Active = false;
 			} else {
