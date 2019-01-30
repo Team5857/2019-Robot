@@ -19,7 +19,7 @@ public class Intake extends Subsystem {
 	public Intake() {
 		intake1 = new WPI_TalonSRX(9); // initialize left motors on port 12
 		intake2 = new WPI_TalonSRX(10);
-		intakeSpin = new WPI_TalonSRX(2j);
+		intakeSpin = new WPI_TalonSRX(2);
 	}
 		
 	public void toggleIntake(Joystick secondaryStick) {
