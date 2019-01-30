@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleIntakeSpin extends Command {
 
 	public ToggleIntakeSpin() {
-		super("ToggleIntakeSpin");
+		super("ToggleIntake");
 		requires(Robot.intake);
 	}
 	

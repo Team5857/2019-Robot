@@ -3,6 +3,7 @@ package org.usfirst.frc.team5857.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import org.usfirst.frc.team5857.robot.commands.ToggleIntake;
+import org.usfirst.frc.team5857.robot.commands.ToggleIntakeSpin;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -18,7 +19,7 @@ public class Intake extends Subsystem {
 	public Intake() {
 		intake1 = new WPI_TalonSRX(9); // initialize left motors on port 12
 		intake2 = new WPI_TalonSRX(10);
-		intakeSpin = new WPI_TalonSRX(11);
+		intakeSpin = new WPI_TalonSRX(2);
 	}
 		
 	public void toggleIntake(Joystick secondaryStick) {
@@ -44,7 +45,7 @@ public class Intake extends Subsystem {
 			}
 
 			if(intake1Active){
-				intake1.set(-1.);
+				intake1.set(-1.0);
 				intake2.set(1.0);
 			} else{
 				intake1.set(0);
@@ -57,11 +58,13 @@ public class Intake extends Subsystem {
 
 		intakeSpin.set(secondaryStick.getRawAxis(3));
 		intakeSpin.set(-secondaryStick.getRawAxis(2));
+	
 		
 	}
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
 		
 	}
+
 
 	public boolean getIntakeSpeed1() {
 		return intake1.getInverted();
@@ -78,6 +81,7 @@ public class Intake extends Subsystem {
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ToggleIntake());
+		setDefaultCommand(new ToggleIntakeSpin());
 	}
 	
 }
