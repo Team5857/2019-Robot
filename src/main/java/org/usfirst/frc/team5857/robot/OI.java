@@ -14,17 +14,15 @@ public class OI {
 		driveStick = new Joystick(0);				//Logitech Dual Action
 		secondaryStick = new Joystick(1);
 		
-		/** Logitech Dual Action**/
-		
-		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());
-		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());
-		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());
-		new JoystickButton(secondaryStick, 6).whenPressed(new ToggleIntake());
-		new JoystickButton(secondaryStick, 5).whenPressed(new ToggleIntake());
-			
-		/**Saitek ST290**/
-	
-		
+		//X-Box Controllers
+		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());	//Start
+		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());		//B
+		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());		//A
+		new JoystickButton(secondaryStick, 6).whenPressed(new ToggleIntake());	//LB
+		new JoystickButton(secondaryStick, 5).whenPressed(new ToggleIntake());	//RB
+		new JoystickButton(secondaryStick, 1).whenPressed(new ResetEncoder());	//A
+		new JoystickButton(secondaryStick, 2).whenPressed(new RaiseArmUp());	//B
+
 	}
 	
 	public Joystick getDriveStick() {
