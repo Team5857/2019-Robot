@@ -56,8 +56,8 @@ public class Intake extends Subsystem {
 
 	public void toggleIntakeSpin(Joystick secondaryStick){
 
-		intakeSpin.set(secondaryStick.getRawAxis(3));
-		intakeSpin.set(-secondaryStick.getRawAxis(2));
+		intakeSpin.set(secondaryStick.getRawAxis(5));
+	//	intakeSpin.set(-secondaryStick.getRawAxis(2));
 	
 		
 	}
