@@ -25,6 +25,10 @@ public class Arm extends Subsystem {
 		rightarm.set(secondaryStick.getRawAxis(1));
 		//Prints out encoder values
 		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(3));
+		if(secondaryStick.getRawButtonPressed(5)){
+			leftarm.set(0);
+			rightarm.set(0);
+		}
 	}
 
 	public void raiseArmUp(){
@@ -34,7 +38,7 @@ public class Arm extends Subsystem {
 		}
 	}
 	public void resetEncoder() {
-		((BaseMotorController) rightarm).setSelectedSensorPosition(0,  0,  10);
+		((BaseMotorController) rightarm).setSelectedSensorPosition(0,  0, 0);
 		System.out.println("Encoder has been reset");
 	}
 

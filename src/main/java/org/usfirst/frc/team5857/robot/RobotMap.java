@@ -31,5 +31,6 @@ public class RobotMap {
 	Arm: Left Joystick (1)
 	Reset Encoder: Button 6 (RB)
 	Raise Arm: Button 1 (A)
+	Stop Arm: Button 5 (LB)
 	*/
 }
