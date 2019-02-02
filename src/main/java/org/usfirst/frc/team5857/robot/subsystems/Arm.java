@@ -32,6 +32,7 @@ public class Arm extends Subsystem {
 				while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 42990) {
 					leftarm.set(0.5);
 					rightarm.set(-0.5);
+					SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 					if(secondaryStick.getRawButtonPressed(7)) {
 						rightarm.set(0);
 						leftarm.set(0);
@@ -39,9 +40,10 @@ public class Arm extends Subsystem {
 				}
 			}	
 		if(secondaryStick.getRawButtonPressed(4)) {
-			while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) >0) {
-				leftarm.set(-0.5);
-				rightarm.set(0.5);
+			while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 0) {
+				leftarm.set(-0.1);
+				rightarm.set(0.1);
+				SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 				if(secondaryStick.getRawButtonPressed(7)) {
 					rightarm.set(0);
 					leftarm.set(0);
