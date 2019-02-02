@@ -24,7 +24,7 @@ public class Arm extends Subsystem {
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
 		//Prints out encoder values
-		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(3));
+		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 		if(secondaryStick.getRawButtonPressed(5)){
 			leftarm.set(0);
 			rightarm.set(0);
@@ -32,18 +32,18 @@ public class Arm extends Subsystem {
 	}
 
 	public void raiseArmUp(){
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(3) < 10000){
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10000){
 			leftarm.set(-.3);
 			rightarm.set(.3);
 		}
 	}
 	public void resetEncoder() {
-		((BaseMotorController) rightarm).setSelectedSensorPosition(0,  0, 0);
+		((BaseMotorController) rightarm).setSelectedSensorPosition(0, 0, 10);
 		System.out.println("Encoder has been reset");
 	}
 
 	public boolean hasResetOccurred() {
-		return ((BaseMotorController) rightarm).getSelectedSensorPosition(3) == 0;
+		return ((BaseMotorController) rightarm).getSelectedSensorPosition(0) == 0;
 	}
 	public void toggleArm(Joystick left, Joystick right)
 	{
