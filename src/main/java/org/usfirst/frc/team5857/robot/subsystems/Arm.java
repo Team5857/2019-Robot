@@ -15,8 +15,8 @@ public class Arm extends Subsystem {
 	public static SpeedController rightarm;
 
 	public Arm() {
-		leftarm = new WPI_TalonSRX(6); // initialize left motors on port 12
-		rightarm = new WPI_TalonSRX(5);
+		leftarm = new WPI_TalonSRX(12); // initialize left motors on port 12
+		rightarm = new WPI_TalonSRX(3);
 	}
 		
 	public void toggleArm(Joystick secondaryStick) {
@@ -29,7 +29,7 @@ public class Arm extends Subsystem {
 	}
 
 	public void raiseArmUp(){
-		while(((BaseMotorController) leftarm).getSelectedSensorPosition(6) < 10000){
+		while(((BaseMotorController) leftarm).getSelectedSensorPosition(5) < 10000){
 			leftarm.set(-.3);
 			rightarm.set(.3);
 		}

@@ -15,10 +15,10 @@ public class DriveTrain extends Subsystem {
 	public static SpeedController right1;
 	public static SpeedController right2;
 	public DriveTrain() {
-		left1 = new WPI_TalonSRX(7);					//initialize left motors on port 12
-		left2 = new WPI_TalonSRX(8);
-		right1 = new WPI_TalonSRX(3);
-		right2 = new WPI_TalonSRX(4);
+		left1 = new WPI_TalonSRX(13);					//initialize left motors on port 12
+		left2 = new WPI_TalonSRX(14);
+		right1 = new WPI_TalonSRX(1);
+		right2 = new WPI_TalonSRX(2);
 	}
 		
 	public void tankDrive(Joystick driveStick) {
