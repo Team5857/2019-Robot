@@ -42,6 +42,9 @@ public class Arm extends Subsystem {
 		System.out.println("Encoder has been reset");
 	}
 
+	public boolean hasResetOccurred() {
+		return ((BaseMotorController) rightarm).getSelectedSensorPosition(3) == 0;
+	}
 	public void toggleArm(Joystick left, Joystick right)
 	{
 		leftarm.set(-left.getRawAxis(1));
