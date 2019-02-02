@@ -8,7 +8,7 @@
 package org.usfirst.frc.team5857.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team5857.robot.Robot;
+import org.usfirst.frc.team5857.robot.*;
 
 public class ResetEncoder extends Command {
   public ResetEncoder() {
@@ -18,12 +18,13 @@ public class ResetEncoder extends Command {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {}
+  protected void initialize() {
+  }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.arm.resetEncoder();
+    Robot.arm.raiseArmUp();
   }
 
   // Make this return true when this Command no longer needs to run execute()

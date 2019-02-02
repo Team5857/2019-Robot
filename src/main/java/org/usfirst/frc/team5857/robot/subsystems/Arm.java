@@ -23,7 +23,6 @@ public class Arm extends Subsystem {
 		//Uses Controller Joysticks to raiser/lower Arm
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
-
 		//Prints out encoder values
 		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(3));
 	}

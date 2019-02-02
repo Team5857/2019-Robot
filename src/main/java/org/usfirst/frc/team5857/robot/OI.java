@@ -18,10 +18,10 @@ public class OI {
 		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());	//Start
 		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());		//B
 		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());		//A
-		new JoystickButton(secondaryStick, 6).whenPressed(new ToggleIntake());	//LB
-		new JoystickButton(secondaryStick, 5).whenPressed(new ToggleIntake());	//RB
-		new JoystickButton(secondaryStick, 1).whenPressed(new ResetEncoder());	//A
-		new JoystickButton(secondaryStick, 2).whenPressed(new RaiseArmUp());	//B
+		new JoystickButton(secondaryStick, 2).whenPressed(new ToggleIntake());	//B
+		new JoystickButton(secondaryStick, 3).whenPressed(new ToggleIntake());	//X
+		new JoystickButton(secondaryStick, 6).whenPressed(new ResetEncoder());	//RB
+		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmUp());	//A
 
 	}
 	
