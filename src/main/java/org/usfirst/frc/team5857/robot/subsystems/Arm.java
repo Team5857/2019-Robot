@@ -15,7 +15,7 @@ public class Arm extends Subsystem {
 	public static SpeedController rightarm;
 
 	public Arm() {
-		leftarm = new WPI_TalonSRX(1); // initialize left motors on port 12
+		leftarm = new WPI_TalonSRX(12); // initialize left motors on port 12
 		rightarm = new WPI_TalonSRX(3);
 	}
 		
