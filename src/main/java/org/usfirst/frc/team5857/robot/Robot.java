@@ -10,10 +10,7 @@
 
 package org.usfirst.frc.team5857.robot;
 
-import org.usfirst.frc.team5857.robot.subsystems.Arm;
-import org.usfirst.frc.team5857.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team5857.robot.subsystems.Intake;
-import org.usfirst.frc.team5857.robot.subsystems.Pneumatics;
+import org.usfirst.frc.team5857.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -146,10 +143,12 @@ public class Robot extends TimedRobot {
 	}
 
 	public void log() {
-		
-			SmartDashboard.putString("DB/String 0", "Speed (L): " + String.format( "%.2f", (drivetrain.getLeftSpeed() * 100)) + "%");
-			SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");		
+		//Prints Speed of Left Side in Dashboard (Tab: Basic)
+		SmartDashboard.putString("DB/String 0", "Speed (L): " + String.format( "%.2f", (drivetrain.getLeftSpeed() * 100)) + "%");
+		//Prints Speed of Right Side in Dashboard (Tab: Basic)
+		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
+		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
+		SmartDashboard.putString("DB/String 1", "Intake0: " + String.format( "%.2f", arm.getEncoderValue() * 100) + "%");	
 		Timer.delay(0.05);
-	
 	}
 }
