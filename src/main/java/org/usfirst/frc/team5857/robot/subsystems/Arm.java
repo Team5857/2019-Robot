@@ -25,17 +25,19 @@ public class Arm extends Subsystem {
 		rightarm.set(secondaryStick.getRawAxis(1));
 		//Prints out encoder values
 		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
-		if(secondaryStick.getRawButtonPressed(5)){
-			leftarm.set(0);
-			rightarm.set(0);
+		if(secondaryStick.getRawButtonPressed(8)) {
+			resetEncoder();
 		}
-	}
-
-	public void raiseArmUp(){
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10000){
-			leftarm.set(-.3);
-			rightarm.set(.3);
-		}
+		if(secondaryStick.getRawButtonPressed(1)) {
+				while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 70000) {
+					rightarm.set(0.5);
+					leftarm.set(-0.5);
+					if(secondaryStick.getRawButtonPressed(7)) {
+						rightarm.set(0);
+						leftarm.set(0);
+					}
+				}
+			}	
 	}
 	public void resetEncoder() {
 		((BaseMotorController) rightarm).setSelectedSensorPosition(0, 0, 10);
@@ -52,7 +54,7 @@ public class Arm extends Subsystem {
 	}
 
 
-	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
+	public void autosecondaryAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
 		
 	}
 

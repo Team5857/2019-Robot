@@ -29,8 +29,7 @@ public class RobotMap {
 	outake: Button 3 (X)
 	intake tilt: Right Joystick(5)
 	Arm: Left Joystick (1)
-	Reset Encoder: Button 6 (RB)
+	Reset Encoder: Button 8 (Start)
 	Raise Arm: Button 1 (A)
-	Stop Arm: Button 5 (LB)
 	*/
 }
