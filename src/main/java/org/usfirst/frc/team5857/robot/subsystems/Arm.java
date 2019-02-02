@@ -29,15 +29,25 @@ public class Arm extends Subsystem {
 			resetEncoder();
 		}
 		if(secondaryStick.getRawButtonPressed(1)) {
-				while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 70000) {
-					rightarm.set(0.5);
-					leftarm.set(-0.5);
+				while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 42990) {
+					leftarm.set(0.5);
+					rightarm.set(-0.5);
 					if(secondaryStick.getRawButtonPressed(7)) {
 						rightarm.set(0);
 						leftarm.set(0);
 					}
 				}
 			}	
+		if(secondaryStick.getRawButtonPressed(4)) {
+			while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) >0) {
+				leftarm.set(-0.5);
+				rightarm.set(0.5);
+				if(secondaryStick.getRawButtonPressed(7)) {
+					rightarm.set(0);
+					leftarm.set(0);
+				}
+			}
+		}
 	}
 	public void resetEncoder() {
 		((BaseMotorController) rightarm).setSelectedSensorPosition(0, 0, 10);
