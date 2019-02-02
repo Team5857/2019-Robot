@@ -15,7 +15,7 @@ public class Arm extends Subsystem {
 	public static SpeedController rightarm;
 
 	public Arm() {
-		leftarm = new WPI_TalonSRX(12); // initialize left motors on port 12
+		leftarm = new WPI_TalonSRX(1); // initialize left motors on port 12
 		rightarm = new WPI_TalonSRX(3);
 	}
 		
@@ -25,17 +25,17 @@ public class Arm extends Subsystem {
 		rightarm.set(secondaryStick.getRawAxis(1));
 
 		//Prints out encoder values
-		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) leftarm).getSelectedSensorPosition(6));
+		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(3));
 	}
 
 	public void raiseArmUp(){
-		while(((BaseMotorController) leftarm).getSelectedSensorPosition(5) < 10000){
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(3) < 10000){
 			leftarm.set(-.3);
 			rightarm.set(.3);
 		}
 	}
 	public void resetEncoder() {
-		((BaseMotorController) leftarm).setSelectedSensorPosition(0,  0,  10);
+		((BaseMotorController) rightarm).setSelectedSensorPosition(0,  0,  10);
 		System.out.println("Encoder has been reset");
 	}
 
