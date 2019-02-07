@@ -29,6 +29,18 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;;
 
+import org.usfirst.frc.team5857.grip.MyGripPipeline;
+
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.*;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.vision.VisionRunner;
+import edu.wpi.first.wpilibj.vision.VisionThread;
+
 public class Robot extends TimedRobot {
 
 	public static DriveTrain drivetrain;
@@ -42,6 +54,15 @@ public class Robot extends TimedRobot {
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
 	SendableChooser chooser;
+
+	private static final int IMG_WIDTH = 320;
+	private static final int IMG_HEIGHT = 240;
+	
+	private VisionThread visionThread;
+	private double centerX = 0.0;
+	private RobotDrive drive;
+	
+	private final Object imgLock = new Object();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -65,6 +86,26 @@ public class Robot extends TimedRobot {
 				outputStream.putFrame(output);
 			}
 		}).start();
+
+		//Vision Sample Code
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+		
+		visionThread = new VisionThread(camera, new MyGripPipeline(), pipeline -> {
+			if (!pipeline.filterContoursOutput().isEmpty()) {
+				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+				synchronized (imgLock) {
+					centerX = r.x + (r.width / 2);
+				}
+				SmartDashboard.putString("DB/String 0", "Starting X Value: " + r.x);
+				SmartDashboard.putString("DB/String 0", "Center X Value: " + centerX);
+				
+			}
+		});
+		visionThread.start();
+			
+		drive = new RobotDrive(1, 2);
+		//end
 
 		drivetrain = new DriveTrain();
 		arm = new Arm();
