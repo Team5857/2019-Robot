@@ -12,7 +12,7 @@ import org.usfirst.frc.team5857.robot.*;
 
 public class RaiseArmUp extends Command {
   public RaiseArmUp() {
-    super("RiaseArmUp");
+    super("RaiseArmUp");
     requires(Robot.arm);
   }
 
