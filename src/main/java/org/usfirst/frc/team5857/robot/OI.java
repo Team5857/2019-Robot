@@ -11,8 +11,8 @@ public class OI {
 	public Joystick secondaryStick;
 	
 	public OI() { 
-		driveStick = new Joystick(0);
-		secondaryStick = new Joystick(1);
+		driveStick = new Joystick(0);		//New XBOX Controller
+		secondaryStick = new Joystick(1);	//Old XBOX Controller
 		
 		//X-Box Controllers
 		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());	//Start
