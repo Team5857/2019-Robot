@@ -55,15 +55,6 @@ public class Robot extends TimedRobot {
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
 	SendableChooser chooser;
 
-	private static final int IMG_WIDTH = 320;
-	private static final int IMG_HEIGHT = 240;
-	
-	private VisionThread visionThread;
-	private double centerX = 0.0;
-	private RobotDrive drive;
-	private double r1;
-	private double centerX1;
-	
 	private final Object imgLock = new Object();
 
 	/**
@@ -88,23 +79,6 @@ public class Robot extends TimedRobot {
 				outputStream.putFrame(output);
 			}
 		}).start();
-
-		//Vision Sample Code
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		
-		visionThread = new VisionThread(camera, new MyGripPipeline(), pipeline -> {
-			if (!pipeline.filterContoursOutput().isEmpty()) {
-				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				synchronized (imgLock) {
-					centerX = r.x + (r.width / 2);
-					centerX1 = centerX;
-					r1 = r.x;
-				}
-				
-			}
-		});
-		visionThread.start();
 
 		drivetrain = new DriveTrain();
 		arm = new Arm();
@@ -189,9 +163,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
 		SmartDashboard.putString("DB/String 1", "Intake0: " + String.format( "%.2f", arm.getEncoderValue() * 100) + "%");	
-		SmartDashboard.putString("DB/String 2", "Starting X Value: " + r1);
-		SmartDashboard.putString("DB/String 3", "Center X Value: " + centerX1);
-		SmartDashboard.putString("DB/String 4", "Center X Value: " + Double.toString((centerX1 - (IMG_WIDTH/2))));
 		Timer.delay(0.05);
 	}
 }
