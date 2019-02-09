@@ -28,13 +28,13 @@ public class DriveTrain extends Subsystem {
 		right2.set(driveStick.getRawAxis(5));
 	}
 
-	// public void tankDrive(Joystick left, Joystick right)
-	// {
-	// 	DriveTrain.left1.set(left.getRawAxis(1));
-	// 	DriveTrain.left2.set(left.getRawAxis(1));
-	// 	DriveTrain.right1.set(right.getRawAxis(5));
-	// 	DriveTrain.right2.set(right.getRawAxis(5));
-	// }
+	public void tankDrive(Joystick left, Joystick right)
+	{
+		DriveTrain.left1.set(left.getRawAxis(1));
+		DriveTrain.left2.set(left.getRawAxis(1));
+		DriveTrain.right1.set(right.getRawAxis(5));
+		DriveTrain.right2.set(right.getRawAxis(5));
+	}
 
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
 		left1.set(-leftComp*speed);

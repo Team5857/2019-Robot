@@ -28,6 +28,7 @@ import org.opencv.objdetect.*;
 public class MyGripPipeline implements VisionPipeline {
 
 	//Outputs
+	private Mat resizeImageOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
@@ -41,8 +42,15 @@ public class MyGripPipeline implements VisionPipeline {
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	@Override	public void process(Mat source0) {
+		// Step Resize_Image0:
+		Mat resizeImageInput = source0;
+		double resizeImageWidth = 320.0;
+		double resizeImageHeight = 240.0;
+		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
+		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
+
 		// Step HSV_Threshold0:
-		Mat hsvThresholdInput = source0;
+		Mat hsvThresholdInput = resizeImageOutput;
 		double[] hsvThresholdHue = {0.0, 64.84848484848482};
 		double[] hsvThresholdSaturation = {135.29676258992808, 255.0};
 		double[] hsvThresholdValue = {229.31654676258998, 255.0};
@@ -80,11 +88,19 @@ public class MyGripPipeline implements VisionPipeline {
 	}
 
 	/**
+	 * This method is a generated getter for the output of a Resize_Image.
+	 * @return Mat output from Resize_Image.
+	 */
+	public Mat resizeImageOutput() {
+		return resizeImageOutput;
+	}
+
+	/**
 	 * This method is a generated getter for the output of a HSV_Threshold.
 	 * @return Mat output from HSV_Threshold.
 	 */
 	public Mat hsvThresholdOutput() {
-		return hsvThresholdOutput;
+		return hsvThresholdOutput;                            
 	}
 
 	/**
@@ -111,6 +127,19 @@ public class MyGripPipeline implements VisionPipeline {
 		return filterContoursOutput;
 	}
 
+
+	/**
+	 * Scales and image to an exact size.
+	 * @param input The image on which to perform the Resize.
+	 * @param width The width of the output in pixels.
+	 * @param height The height of the output in pixels.
+	 * @param interpolation The type of interpolation.
+	 * @param output The image in which to store the output.
+	 */
+	private void resizeImage(Mat input, double width, double height,
+		int interpolation, Mat output) {
+		Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
+	}
 
 	/**
 	 * Segment an image based on hue, saturation, and value ranges.
