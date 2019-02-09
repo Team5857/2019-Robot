@@ -11,7 +11,7 @@ public class OI {
 	public Joystick secondaryStick;
 	
 	public OI() { 
-		driveStick = new Joystick(0);				//Logitech Dual Action
+		driveStick = new Joystick(0);
 		secondaryStick = new Joystick(1);
 		
 		//X-Box Controllers
@@ -23,8 +23,6 @@ public class OI {
 		new JoystickButton(secondaryStick, 8).whenPressed(new ResetEncoder());	//Start
 		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmUp());	//A
 		new JoystickButton(secondaryStick, 4).whenPressed(new ResetArm());		//Y
-		
-
 	}
 	
 	public Joystick getDriveStick() {
