@@ -19,9 +19,12 @@ public class Pneumatics extends Subsystem {
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
 		//solenoid2.set(DoubleSolenoid.Value.kReverse);
-		
 	}
 	
+	public void stopCompressor(){
+		compressor.stop();
+	}
+
 	public void toggleCompressor()
 	{
 		if(compressor.enabled())

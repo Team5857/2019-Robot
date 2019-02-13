@@ -13,7 +13,7 @@ public class OI {
 	public OI() { 
 		driveStick = new Joystick(0);		//New XBOX Controller
 		secondaryStick = new Joystick(1);	//Old XBOX Controller
-		
+
 		//X-Box Controllers
 		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());	//Start
 		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());		//B
@@ -23,8 +23,10 @@ public class OI {
 		new JoystickButton(secondaryStick, 8).whenPressed(new ResetEncoder());	//Start
 		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmUp());	//A
 		new JoystickButton(secondaryStick, 4).whenPressed(new ResetArm());		//Y
+		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());			//Y
+		// new JoystickButton(secondaryStick, 5).whenPressed(new )
 	}
-	
+
 	public Joystick getDriveStick() {
 		return driveStick;
 	}
