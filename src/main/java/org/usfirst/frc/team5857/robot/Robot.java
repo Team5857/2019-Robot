@@ -77,7 +77,9 @@ public class Robot extends TimedRobot {
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
 	SendableChooser chooser;
-	
+
+	private final Object imgLock = new Object();
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
