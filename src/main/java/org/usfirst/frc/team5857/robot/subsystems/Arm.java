@@ -60,7 +60,7 @@ public class Arm extends Subsystem {
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
 		//Prints out encoder values
-		SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 	}
 
 	/**

@@ -41,8 +41,6 @@ public class DriveTrain extends Subsystem {
 	{
 		leftMotors.set(-driveStick.getRawAxis(1));
 		rightMotors.set(driveStick.getRawAxis(5));
-		double angle = Robot.gyro.getAngle();
-		SmartDashboard.putString("DB/String 2", "Gyro Angle " + String.format( "%.2f", angle));
 	}
 
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {

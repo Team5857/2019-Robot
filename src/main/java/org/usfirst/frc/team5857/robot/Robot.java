@@ -30,7 +30,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 
@@ -72,13 +71,11 @@ public class Robot extends TimedRobot {
 	private double limelightDrive = 0.0;
 	private double limelightSteer = 0.0;
 
-	public static AnalogGyro gyro;
+	AnalogGyro gyro = new AnalogGyro(0);
 
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
 	SendableChooser chooser;
-
-	private final Object imgLock = new Object();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -118,8 +115,6 @@ public class Robot extends TimedRobot {
 
 		oi = new OI();
 
-		gyro = new AnalogGyro(1);
-
 		pdp.clearStickyFaults();
 
 		chooser = new SendableChooser();
@@ -128,9 +123,7 @@ public class Robot extends TimedRobot {
 		CameraServer.getInstance().startAutomaticCapture();
 		//disable compressor
 		pneumatic.stopCompressor();
-		arm.resetEncoder();
-		gyro.reset();
-	}
+		arm.resetEncoder();	}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -209,7 +202,7 @@ public class Robot extends TimedRobot {
 		final double STEER_K = 0.04;                    // how hard to turn toward the target
         final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
         final double DESIRED_TARGET_AREA = 5;        // Area of the target when the robot reaches the wall
-        final double MAX_DRIVE = 0.8;                   // Simple speed limit so we don't drive too fast
+        final double MAX_DRIVE = 0.5 ;                   // Simple speed limit so we don't drive too fast
 
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
         double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -252,7 +245,9 @@ public class Robot extends TimedRobot {
 		//Prints Speed of Right Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
-		SmartDashboard.putString("DB/String 1", "Intake0: " + String.format( "%.2f", arm.getEncoderValue() * 100) + "%");
+		SmartDashboard.putString("DB/String 1", "Arm Encoder: " + String.format( "%.2f", arm.getEncoderValue()));
+		//Prints Gyro Angle
+		SmartDashboard.putString("DB/String 2", "Gyro: " + String.format( "%.2f", gyro.getAngle()));
 		Timer.delay(0.05);
 	}
 }
