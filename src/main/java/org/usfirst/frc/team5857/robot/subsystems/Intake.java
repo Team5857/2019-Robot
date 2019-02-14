@@ -35,8 +35,6 @@ public class Intake extends Subsystem {
 				intake1Active = true;
 			}
 			if(intake1Active){
-				intake1.set(1);
-				intake2.set(1);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
@@ -73,7 +71,7 @@ public class Intake extends Subsystem {
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ToggleIntake());
-		//setDefaultCommand(new ToggleIntakeSpin());
+
 	}
 	
 }
