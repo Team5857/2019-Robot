@@ -30,8 +30,8 @@ public class Intake extends Subsystem {
 				intake1Active = true;
 			}
 			if(intake1Active){
-				intake1.set(0.3);
-				intake2.set(-0.3);
+				intake1.set(0.45);
+				intake2.set(-0.45);
 			} else{
 				intake1.set(0);
 				intake2.set(0);
@@ -57,8 +57,6 @@ public class Intake extends Subsystem {
 	public void toggleIntakeSpin(Joystick secondaryStick){
 
 		intakeSpin.set(secondaryStick.getRawAxis(5));
-	//	intakeSpin.set(-secondaryStick.getRawAxis(2));
-	
 		
 	}
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
@@ -81,7 +79,7 @@ public class Intake extends Subsystem {
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new ToggleIntake());
-		setDefaultCommand(new ToggleIntakeSpin());
+		setDefaultCommand(new ToggleIntakeSpin());		
 	}
 	
 }
