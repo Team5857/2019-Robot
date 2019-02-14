@@ -9,7 +9,6 @@
 //==============================================
 
 package org.usfirst.frc.team5857.robot;
-
 import org.usfirst.frc.team5857.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -29,39 +28,56 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 
-import org.usfirst.frc.team5857.grip.MyGripPipeline;
-
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
-import edu.wpi.first.wpilibj.vision.VisionThread;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedController;
+import org.usfirst.frc.team5857.robot.*;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team5857.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class Robot extends TimedRobot {
-
+	private XboxController driveController = new XboxController(0);
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static Intake intake;
+	//remove later
+	//public static IntakeTilt intakeTilt;
 	public PowerDistributionPanel pdp;
 	public static Pneumatics pneumatic;
 	public static Timer timer;
-
+	public static double errorX;
+	public static double areaTarget;
+	public static DriveTrain driveTrain;
 	public static OI oi;
+
+	private boolean limelightHasTarget = false;
+	private double limelightDrive = 0.0;
+	private double limelightSteer = 0.0;
+
+	public static AnalogGyro gyro;
+
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
 	SendableChooser chooser;
 
-	private static final int IMG_WIDTH = 320;
-	private static final int IMG_HEIGHT = 240;
-	
-	private VisionThread visionThread;
-	private double centerX = 0.0;
-	private RobotDrive drive;
-	
 	private final Object imgLock = new Object();
 
 	/**
@@ -87,33 +103,22 @@ public class Robot extends TimedRobot {
 			}
 		}).start();
 
-		//Vision Sample Code
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-		
-		visionThread = new VisionThread(camera, new MyGripPipeline(), pipeline -> {
-			if (!pipeline.filterContoursOutput().isEmpty()) {
-				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				synchronized (imgLock) {
-					centerX = r.x + (r.width / 2);
-				}
-				SmartDashboard.putString("DB/String 0", "Starting X Value: " + r.x);
-				SmartDashboard.putString("DB/String 0", "Center X Value: " + centerX);
-				
-			}
-		});
-		visionThread.start();
-			
-		drive = new RobotDrive(1, 2);
-		//end
+		//set values
+		NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+		NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+		NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
 
 		drivetrain = new DriveTrain();
 		arm = new Arm();
 		intake = new Intake();
+		//remove later
+		//intakeTilt = new IntakeTilt();
 		pdp = new PowerDistributionPanel(0);	
 		pneumatic = new Pneumatics();
 
 		oi = new OI();
+
+		gyro = new AnalogGyro(1);
 
 		pdp.clearStickyFaults();
 
@@ -121,6 +126,10 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 
 		CameraServer.getInstance().startAutomaticCapture();
+		//disable compressor
+		pneumatic.stopCompressor();
+		arm.resetEncoder();
+		gyro.reset();
 	}
 
 	/**
@@ -168,12 +177,25 @@ public class Robot extends TimedRobot {
 	}
 
 	/**
-	 * This function is called periodically during o	perato'r control
+	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		boolean auto = driveController.getXButton();
 
-		Scheduler.getInstance().run();
+		//Updates Limelight Values
+		UpdateLimelightTracking();
+		
+		//Checks to see if X button is pressed
+		if(auto){
+			if(limelightHasTarget){
+				drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);
+			}
+			else{
+				drivetrain.driveWithSpeedSteer(0, 0);
+			}
+		}
 		log();
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -183,13 +205,54 @@ public class Robot extends TimedRobot {
 		LiveWindow.run();
 	}
 
+	public void UpdateLimelightTracking(){
+		final double STEER_K = 0.04;                    // how hard to turn toward the target
+        final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
+        final double DESIRED_TARGET_AREA = 5;        // Area of the target when the robot reaches the wall
+        final double MAX_DRIVE = 0.8;                   // Simple speed limit so we don't drive too fast
+
+        double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+        double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+        double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+        double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+
+		if(tv <1.0){
+			limelightHasTarget = false;
+			limelightDrive = 0;
+			limelightSteer = 0;
+			return;
+		}
+
+		limelightHasTarget = true;
+
+		//Steering
+		double steer_cmd = tx * STEER_K;
+		limelightSteer = steer_cmd;
+
+		//Drive Forward
+		double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
+
+		if(drive_cmd > MAX_DRIVE){
+			drive_cmd = MAX_DRIVE;
+		}
+		limelightDrive = drive_cmd;
+
+		//post to smart dashboard periodically
+		SmartDashboard.putNumber("LimelightX", tx);
+		SmartDashboard.putNumber("LimelightArea", ta);
+		SmartDashboard.putNumber("LimelightY", ty);
+		SmartDashboard.putNumber("LimelightTargets", tv);
+		SmartDashboard.putString("DB/String 4", "LimelightSteer " + String.format( "%.2f", limelightSteer));
+		SmartDashboard.putString("DB/String 3", "LimelightDrive " + String.format( "%.2f", limelightDrive));
+		Scheduler.getInstance().run();
+	}
 	public void log() {
 		//Prints Speed of Left Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 0", "Speed (L): " + String.format( "%.2f", (drivetrain.getLeftSpeed() * 100)) + "%");
 		//Prints Speed of Right Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
-		SmartDashboard.putString("DB/String 1", "Intake0: " + String.format( "%.2f", arm.getEncoderValue() * 100) + "%");	
+		SmartDashboard.putString("DB/String 1", "Intake0: " + String.format( "%.2f", arm.getEncoderValue() * 100) + "%");
 		Timer.delay(0.05);
 	}
 }

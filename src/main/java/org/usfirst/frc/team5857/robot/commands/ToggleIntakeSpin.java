@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team5857.robot.commands;
 
 import org.usfirst.frc.team5857.robot.Robot;
@@ -27,3 +28,4 @@ public class ToggleIntakeSpin extends Command {
 	}
 
 }
+
