@@ -11,6 +11,7 @@
 package org.usfirst.frc.team5857.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -59,17 +60,24 @@ public class Robot extends TimedRobot {
 
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
-	SendableChooser chooser;{
+	SendableChooser chooser;
 	
-	ahrs = new AHRS(SerialPort.Port.kUSB1);
-	//ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)50);
-	ahrs.enableLogging(true);
-	}
-
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
+	public Robot() {
+        //stick = new Joystick(0);
+        try {
+			/***********************************************************************
+			 * navX-MXP:
+			 * - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB.            
+			 * - See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
+			 ************************************************************************/
+            ahrs = new AHRS(SerialPort.Port.kUSB1);
+            //ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)50);
+            ahrs.enableLogging(true);
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
+        Timer.delay(1.0);   
+    }
 	public void operatorControl() {
         while (isOperatorControl() && isEnabled()) {
             
