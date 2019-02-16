@@ -9,56 +9,32 @@
 //==============================================
 
 package org.usfirst.frc.team5857.robot;
-import org.usfirst.frc.team5857.robot.subsystems.*;
-
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team5857.robot.subsystems.Arm;
+import org.usfirst.frc.team5857.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5857.robot.subsystems.Intake;
+import org.usfirst.frc.team5857.robot.subsystems.Pneumatics;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
-import edu.wpi.first.wpilibj.SerialPort;
-
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.*;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.vision.VisionRunner;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SpeedController;
-import org.usfirst.frc.team5857.robot.*;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team5857.robot.commands.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
@@ -79,8 +55,7 @@ public class Robot extends TimedRobot {
 	private boolean limelightHasTarget = false;
 	private double limelightDrive = 0.0;
 	private double limelightSteer = 0.0;
-
-	AnalogGyro gyro = new AnalogGyro(0);
+	//public AHRS ahrs;
 
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
@@ -89,10 +64,7 @@ public class Robot extends TimedRobot {
 	ahrs = new AHRS(SerialPort.Port.kUSB1);
 	//ahrs = new AHRS(SerialPort.Port.kMXP, SerialDataType.kProcessedData, (byte)50);
 	ahrs.enableLogging(true);
-} catch (RuntimeException ex ) {
-	DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-}
-Timer.delay(1.0);
+	}
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -207,21 +179,25 @@ Timer.delay(1.0);
 			}
 		}).start();
 
+		//Class Initializations
+		drivetrain = new DriveTrain();
+		arm = new Arm();
+		intake = new Intake();
+		pdp = new PowerDistributionPanel(0);	
+		pneumatic = new Pneumatics();
+		oi = new OI();
+		// try {
+		// 	//Communicate w/navX-MXP via the MXP SPI Bus
+		// 	ahrs = new AHRS(SPI.Port.kMXP); 
+		// } catch (RuntimeException ex ) {
+		// 	DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+		// }
+
 		//set values
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-
-		drivetrain = new DriveTrain();
-		arm = new Arm();
-		intake = new Intake();
-		//remove later
-		//intakeTilt = new IntakeTilt();
-		pdp = new PowerDistributionPanel(0);	
-		pneumatic = new Pneumatics();
-
-		oi = new OI();
-
+		
 		pdp.clearStickyFaults();
 
 		chooser = new SendableChooser();
@@ -230,7 +206,7 @@ Timer.delay(1.0);
 		CameraServer.getInstance().startAutomaticCapture();
 		//disable compressor
 		pneumatic.stopCompressor();
-		arm.resetEncoder();	}
+		}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -295,6 +271,7 @@ Timer.delay(1.0);
 			}
 		}
 		log();
+		updateNavX();
 		Scheduler.getInstance().run();
 	}
 
@@ -346,6 +323,93 @@ Timer.delay(1.0);
 		SmartDashboard.putString("DB/String 3", "LimelightDrive " + String.format( "%.2f", limelightDrive));
 		Scheduler.getInstance().run();
 	}
+
+	public void updateNavX(){
+		// Timer.delay(0.020);		/* wait for one motor update time period (50Hz)     */
+          
+		// boolean zero_yaw_pressed = driveController.getYButtonPressed();
+		// if ( zero_yaw_pressed ) {
+		// 	ahrs.zeroYaw();
+		// }
+
+		// /* Display 6-axis Processed Angle Data                                      */
+		// SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+		// SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+		// SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+		// SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+		// SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+		
+		// /* Display tilt-corrected, Magnetometer-based heading (requires             */
+		// /* magnetometer calibration to be useful)                                   */
+		
+		// SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+		
+		// /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
+		// SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
+
+		// /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
+		// /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
+		
+		// SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
+		// SmartDashboard.putNumber(   "IMU_YawRateDPS",       ahrs.getRate());
+
+		// /* Display Processed Acceleration Data (Linear Acceleration, Motion Detect) */
+		
+		// SmartDashboard.putNumber(   "IMU_Accel_X",          ahrs.getWorldLinearAccelX());
+		// SmartDashboard.putNumber(   "IMU_Accel_Y",          ahrs.getWorldLinearAccelY());
+		// SmartDashboard.putBoolean(  "IMU_IsMoving",         ahrs.isMoving());
+		// SmartDashboard.putBoolean(  "IMU_IsRotating",       ahrs.isRotating());
+
+		// /* Display estimates of velocity/displacement.  Note that these values are  */
+		// /* not expected to be accurate enough for estimating robot position on a    */
+		// /* FIRST FRC Robotics Field, due to accelerometer noise and the compounding */
+		// /* of these errors due to single (velocity) integration and especially      */
+		// /* double (displacement) integration.                                       */
+		
+		// SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
+		// SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
+		// SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
+		// SmartDashboard.putNumber(   "Displacement_Y",       ahrs.getDisplacementY());
+		
+		// /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
+		// /* NOTE:  These values are not normally necessary, but are made available   */
+		// /* for advanced users.  Before using this data, please consider whether     */
+		// /* the processed data (see above) will suit your needs.                     */
+		
+		// SmartDashboard.putNumber(   "RawGyro_X",            ahrs.getRawGyroX());
+		// SmartDashboard.putNumber(   "RawGyro_Y",            ahrs.getRawGyroY());
+		// SmartDashboard.putNumber(   "RawGyro_Z",            ahrs.getRawGyroZ());
+		// SmartDashboard.putNumber(   "RawAccel_X",           ahrs.getRawAccelX());
+		// SmartDashboard.putNumber(   "RawAccel_Y",           ahrs.getRawAccelY());
+		// SmartDashboard.putNumber(   "RawAccel_Z",           ahrs.getRawAccelZ());
+		// SmartDashboard.putNumber(   "RawMag_X",             ahrs.getRawMagX());
+		// SmartDashboard.putNumber(   "RawMag_Y",             ahrs.getRawMagY());
+		// SmartDashboard.putNumber(   "RawMag_Z",             ahrs.getRawMagZ());
+		// SmartDashboard.putNumber(   "IMU_Temp_C",           ahrs.getTempC());
+		
+		// /* Omnimount Yaw Axis Information                                           */
+		// /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
+		// AHRS.BoardYawAxis yaw_axis = ahrs.getBoardYawAxis();
+		// SmartDashboard.putString(   "YawAxisDirection",     yaw_axis.up ? "Up" : "Down" );
+		// SmartDashboard.putNumber(   "YawAxis",              yaw_axis.board_axis.getValue() );
+		
+		// /* Sensor Board Information                                                 */
+		// SmartDashboard.putString(   "FirmwareVersion",      ahrs.getFirmwareVersion());
+		
+		// /* Quaternion Data                                                          */
+		// /* Quaternions are fascinating, and are the most compact representation of  */
+		// /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
+		// /* from the Quaternions.  If interested in motion processing, knowledge of  */
+		// /* Quaternions is highly recommended.                                       */
+		// SmartDashboard.putNumber(   "QuaternionW",          ahrs.getQuaternionW());
+		// SmartDashboard.putNumber(   "QuaternionX",          ahrs.getQuaternionX());
+		// SmartDashboard.putNumber(   "QuaternionY",          ahrs.getQuaternionY());
+		// SmartDashboard.putNumber(   "QuaternionZ",          ahrs.getQuaternionZ());
+		
+		// /* Connectivity Debugging Support                                           */
+		// SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
+		// SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
+	}
 	public void log() {
 		//Prints Speed of Left Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 0", "Speed (L): " + String.format( "%.2f", (drivetrain.getLeftSpeed() * 100)) + "%");
@@ -353,8 +417,6 @@ Timer.delay(1.0);
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
 		SmartDashboard.putString("DB/String 1", "Arm Encoder: " + String.format( "%.2f", arm.getEncoderValue()));
-		//Prints Gyro Angle
-		SmartDashboard.putString("DB/String 2", "Gyro: " + String.format( "%.2f", gyro.getAngle()));
 		Timer.delay(0.05);
 	}
 }
