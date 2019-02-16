@@ -43,8 +43,6 @@ public class Robot extends TimedRobot {
 	public static Arm arm;
 	public static Intake intake;
 	public static AHRS ahrs;
-	//remove later
-	//public static IntakeTilt intakeTilt;
 	public PowerDistributionPanel pdp;
 	public static Pneumatics pneumatic;
 	public static Timer timer;
@@ -79,8 +77,6 @@ public class Robot extends TimedRobot {
         Timer.delay(1.0);   
     }
 	public void operatorControl() {
-        while (isOperatorControl() && isEnabled()) {
-            
             Timer.delay(0.020);		/* wait for one motor update time period (50Hz)     */
             
             boolean zero_yaw_pressed = false; //stick.getTrigger();
