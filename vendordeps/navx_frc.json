@@ -18,7 +18,7 @@
     "cppDependencies": [
         {
             "groupId": "com.kauailabs.navx.frc",
-            "artifactId": "navx-cpp",
+            "artifactId": "navx-java",
             "version": "3.1.366",
             "headerClassifier": "headers",
             "sourcesClassifier": "sources",

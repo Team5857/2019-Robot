@@ -24,7 +24,6 @@ public class OI {
 		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmUp());	//A
 		new JoystickButton(secondaryStick, 4).whenPressed(new ResetArm());		//Y
 		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());			//Y
-		// new JoystickButton(secondaryStick, 5).whenPressed(new )
 	}
 
 	public Joystick getDriveStick() {

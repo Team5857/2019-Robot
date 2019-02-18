@@ -24,10 +24,9 @@ public class Arm extends Subsystem {
 	 * @param secondaryStick
 	 */
 	public void raiseArmUp(Joystick secondaryStick) {
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 30000) {
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 43953.00) {
 			leftarm.set(0.5);
 			rightarm.set(-0.5);
-			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 			if(secondaryStick.getRawButtonPressed(7)) {
 				rightarm.set(0);
 				leftarm.set(0);
@@ -35,15 +34,18 @@ public class Arm extends Subsystem {
 		}
 	}
 
+	public void raiseArm(){
+		leftarm.set(.5);
+		rightarm.set(-.5);
+	}
 	/**
 	 * Puts the arm back in resting position
 	 * @param secondaryStick
 	 */
 	public void resetArm(Joystick secondaryStick) {
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 0) {
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 1000) {
 			leftarm.set(-0.1);
 			rightarm.set(0.1);
-			SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 			if(secondaryStick.getRawButtonPressed(7)) {
 				rightarm.set(0);
 				leftarm.set(0);
@@ -59,8 +61,6 @@ public class Arm extends Subsystem {
 		//Uses Controller Joysticks to raiser/lower Arm
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
-		//Prints out encoder values
-		//SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
 	}
 
 	/**
@@ -77,17 +77,6 @@ public class Arm extends Subsystem {
 	public boolean hasResetOccurred() {
 		return ((BaseMotorController) rightarm).getSelectedSensorPosition(0) == 0;
 	}
-
-	// /**
-	//  * Moves arm based on joystick
-	//  * @param left
-	//  * @param right
-	//  */
-	// public void toggleArm(Joystick left, Joystick right)
-	// {
-	// 	leftarm.set(-left.getRawAxis(1));
-	// 	rightarm.set(right.getRawAxis(1));
-	// }
 
 	/**
 	 * Used in log

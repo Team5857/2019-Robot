@@ -9,28 +9,32 @@ public class Pneumatics extends Subsystem {
 	Compressor compressor;
 	DoubleSolenoid solenoid1;
 	public static boolean sol1State; //true = forward, false = backward
-//	public static boolean sol2State; //same as above
+	public static boolean compressorOn;
 	
 	public Pneumatics()
 	{
 		compressor = new Compressor(0);
 		solenoid1 = new DoubleSolenoid(0, 1);
-		//solenoid2 = new DoubleSolenoid(2,3);
+		compressorOn = false;
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
-		//solenoid2.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void stopCompressor(){
 		compressor.stop();
+		compressorOn = false;
 	}
 
 	public void toggleCompressor()
 	{
-		if(compressor.enabled())
+		if(compressor.enabled()) {
 			compressor.stop();
-		else
+			compressorOn = false;
+		}
+		else {
 			compressor.start();
+			compressorOn = true;
+		}
 	}
 	
 	
@@ -45,32 +49,21 @@ public class Pneumatics extends Subsystem {
 			solenoid1.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
-	
-//	public void Pneumatic2Toggle()
-//	{
-//		if(solenoid2.get() == DoubleSolenoid.Value.kReverse)
-//			solenoid2.set(DoubleSolenoid.Value.kForward);
-//		else solenoid2.set(DoubleSolenoid.Value.kReverse);
-//	}
+
 	
 	public void Pneumatic1FWD()
 	{
 		solenoid1.set(DoubleSolenoid.Value.kForward);
 	}
 	
-//	public void Pneumatic2FWD()
-//	{
-//		solenoid2.set(DoubleSolenoid.Value.kForward);
-//	}
-	
 	public void Pneumatic1REV()
 	{
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
 	}
 	
-//	public void Pneumatic2REV()
-//	{
-//		solenoid2.set(DoubleSolenoid.Value.kReverse);
-//	}
+	public boolean isCompressorOn(){
+		return compressorOn;
+	}
+
 	
 }

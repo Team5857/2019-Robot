@@ -39,6 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
+	private XboxController secondaryController = new XboxController(1);
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static Intake intake;
@@ -51,9 +52,16 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static OI oi;
 
-	private boolean limelightHasTarget = false;
-	private double limelightDrive = 0.0;
-	private double limelightSteer = 0.0;
+	//Limelight Values
+	public boolean limelightHasTarget = false;
+	public double limelightDrive = 0.0;
+	public double limelightSteer = 0.0;
+
+	//NavX Values
+	public double angleOfRobot = 0; 
+
+	//Arm
+	public double armEncoder = 0;
 
 
 	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
@@ -157,6 +165,7 @@ public class Robot extends TimedRobot {
 	 */
 	public void teleopPeriodic() {
 		boolean auto = driveController.getXButton();
+		boolean armUp = driveController.getAButtonPressed();
 
 		//Updates Limelight Values
 		UpdateLimelightTracking();
@@ -170,6 +179,13 @@ public class Robot extends TimedRobot {
 				drivetrain.driveWithSpeedSteer(0, 0);
 			}
 		}
+
+		if(armUp) {
+			while(arm.getEncoderValue() < 43953){
+				arm.raiseArm();
+			}
+		}
+
 		log();
 		operatorControl();
 		Scheduler.getInstance().run();
@@ -182,11 +198,14 @@ public class Robot extends TimedRobot {
 		LiveWindow.run();
 	}
 
+	/**
+	 * This function updates limelight values for autonomous driving
+	 */
 	public void UpdateLimelightTracking(){
 		final double STEER_K = 0.03;                    // how hard to turn toward the target
         final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
-        final double DESIRED_TARGET_AREA = 17.7;        // Area of the target when the robot reaches the wall
-        final double MAX_DRIVE = 0.5 ;                   // Simple speed limit so we don't drive too fast
+        final double DESIRED_TARGET_AREA = 4;        // Area of the target when the robot reaches the wall
+        final double MAX_DRIVE = 0.7;                  // Simple speed limit so we don't drive too fast
 
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
         double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -214,6 +233,7 @@ public class Robot extends TimedRobot {
 		}
 		limelightDrive = drive_cmd;
 
+		armEncoder = arm.getEncoderValue();
 		//post to smart dashboard periodically
 		SmartDashboard.putNumber("LimelightX", tx);
 		SmartDashboard.putNumber("LimelightArea", ta);
@@ -224,42 +244,34 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
+	/**
+	 * Updates NavX Values For Driving Purposes
+	 */
 	public void operatorControl() {
-		Timer.delay(0.020);		/* wait for one motor update time period (50Hz)     */
 		
 		boolean zero_yaw_pressed = driveController.getYButton();
 		if ( zero_yaw_pressed ) {
 			ahrs.zeroYaw();
 		}
 
-		/* Display 6-axis Processed Angle Data                                      */
-		SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+		/* Checks if everything is connected                                        */
+		SmartDashboard.putBoolean("Connected", ahrs.isConnected());
+		SmartDashboard.putBoolean("Moving", ahrs.isMoving());
+		SmartDashboard.putBoolean("Rotating", ahrs.isRotating());
 
-		/* These functions are compatible w/the WPI Gyro Class, providing a simple  */
-		/* path for upgrading from the Kit-of-Parts gyro to the navx MXP            */
-		
-		SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
-		SmartDashboard.putNumber(   "IMU_YawRateDPS",       ahrs.getRate());
-
-		SmartDashboard.putBoolean(  "IMU_IsMoving",         ahrs.isMoving());
-		SmartDashboard.putBoolean(  "IMU_IsRotating",       ahrs.isRotating());
+		/*Prints Gyro Value 														*/
+		SmartDashboard.putNumber("Angle", ahrs.getAngle());
+		angleOfRobot = ahrs.getAngle();
 
 		/* Display estimates of velocity/displacement.  Note that these values are  */
 		/* not expected to be accurate enough for estimating robot position on a    */
 		/* FIRST FRC Robotics Field, due to accelerometer noise and the compounding */
 		/* of these errors due to single (velocity) integration and especially      */
 		/* double (displacement) integration.                                       */
-		
 		SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
 		SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
 		SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
 		SmartDashboard.putNumber(   "Displacement_Y",       ahrs.getDisplacementY());
-		
-		/* Omnimount Yaw Axis Information                                           */
-		/* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
-		AHRS.BoardYawAxis yaw_axis = ahrs.getBoardYawAxis();
-		SmartDashboard.putString(   "YawAxisDirection",     yaw_axis.up ? "Up" : "Down" );
-		SmartDashboard.putNumber(   "YawAxis",              yaw_axis.board_axis.getValue() );
 	}
 
 	public void log() {
@@ -269,6 +281,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
 		SmartDashboard.putString("DB/String 1", "Arm Encoder: " + String.format( "%.2f", arm.getEncoderValue()));
+		//Prints compressor state
+		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
 		Timer.delay(0.05);
 	}
 }
