@@ -23,8 +23,81 @@ public class Arm extends Subsystem {
 	 * Raises arm completely up
 	 * @param secondaryStick
 	 */
-	public void raiseArmUp(Joystick secondaryStick) {
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 30000) {
+	public void raiseArmLowHatch(Joystick secondaryStick) {
+		//low hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 2665) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmMidHatch(Joystick secondaryStick) {
+		//mid hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17843) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmTopHatch(Joystick secondaryStick) {
+		//top hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 39597) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmLowBall(Joystick secondaryStick) {
+		//low ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10803) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmMidBall(Joystick secondaryStick) {
+		//mid ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 27996) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmTopBall(Joystick secondaryStick) {
+		//top ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 41586) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));
+			if(secondaryStick.getRawButtonPressed(7)) {
+				rightarm.set(0);
+				leftarm.set(0);
+			}
+		}
+	}
+	public void raiseArmCargoBall(Joystick secondaryStick) {
+		//cargo ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17801) {
 			leftarm.set(0.5);
 			rightarm.set(-0.5);
 			// SmartDashboard.putNumber("EncoderValue", ((BaseMotorController) rightarm).getSelectedSensorPosition(0));

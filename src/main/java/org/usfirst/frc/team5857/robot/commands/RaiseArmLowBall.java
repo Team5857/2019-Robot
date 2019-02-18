@@ -10,9 +10,9 @@ package org.usfirst.frc.team5857.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team5857.robot.*;
 
-public class RaiseArmUp extends Command {
-  public RaiseArmUp() {
-    super("RaiseArmUp");
+public class RaiseArmLowBall extends Command {
+  public RaiseArmLowBall() {
+    super("RaiseArmLowBall");
     requires(Robot.arm);
   }
 
@@ -24,7 +24,7 @@ public class RaiseArmUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.arm.raiseArmUp(Robot.oi.getSecondaryStick());
+    Robot.arm.raiseArmLowBall(Robot.oi.getSecondaryStick());
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -21,8 +21,14 @@ public class OI {
 		new JoystickButton(secondaryStick, 2).whenPressed(new ToggleIntake());	//B
 		new JoystickButton(secondaryStick, 3).whenPressed(new ToggleIntake());	//X
 		new JoystickButton(secondaryStick, 8).whenPressed(new ResetEncoder());	//Start
-		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmUp());	//A
-		new JoystickButton(secondaryStick, 4).whenPressed(new ResetArm());		//Y
+		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmLowHatch()); //A
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmMidHatch());
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmTopHatch());
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmLowBall());
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmMidBall());	
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmTopBall());
+		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmCargoBall());
+		new JoystickButton(secondaryStick, ).whenPressed(new ResetArm());		//Y
 		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());			//Y
 		// new JoystickButton(secondaryStick, 5).whenPressed(new )
 	}
