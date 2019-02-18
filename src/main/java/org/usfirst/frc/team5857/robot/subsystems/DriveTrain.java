@@ -36,16 +36,27 @@ public class DriveTrain extends Subsystem {
 		rightMotors = new SpeedControllerGroup(right1, right2);
 		allMotors = new DifferentialDrive(leftMotors, rightMotors);
 	}
-
+				
 	public void tankDrive(Joystick driveStick)
 	{
-		leftMotors.set(-driveStick.getRawAxis(1));
-		rightMotors.set(driveStick.getRawAxis(5));
+		//Hugh Mungus Brain Mode
+		allMotors.tankDrive(-driveStick.getRawAxis(1), -driveStick.getRawAxis(5));
+
+		//1900's
+		// leftMotors.set(-driveStick.getRawAxis(1));
+		// rightMotors.set(driveStick.getRawAxis(5));
+		
+		//Cave Man Style
+		// left1.set(-driveStick.getRawAxis(1));
+		// left2.set(-driveStick.getRawAxis(1));
+		// right1.set(driveStick.getRawAxis(5));
+		// right2.set(driveStick.getRawAxis(5));
 	}
 
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {
-		leftMotors.set(-leftComp*speed);
-		rightMotors.set(-rightComp*speed);	
+		allMotors.tankDrive(-leftComp*speed, -rightComp*speed);
+		// leftMotors.set(-leftComp*speed);
+		// rightMotors.set(-rightComp*speed);	
 		
 		Timer.delay(seconds);
 		
@@ -58,8 +69,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void driveRobotFixedSpeed(double left, double right){
-		leftMotors.set(-left);
-		rightMotors.set(right);
+		allMotors.tankDrive(-left, right);
+		// leftMotors.set(-left);
+		// rightMotors.set(right);
 	}
 
 	public void stopRobot() {
@@ -69,13 +81,13 @@ public class DriveTrain extends Subsystem {
 	public double getLeftSpeed() {
 		return left1.get();
 	}
-	
+
+
 	public double getRightSpeed() {
 		return right1.get();
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
-	}
-	
+	}	
 }
