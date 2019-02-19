@@ -13,46 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Arm extends Subsystem {
 	public static SpeedController leftarm;
 	public static SpeedController rightarm;
+	public static double armValue;
 
 	public Arm() {
 		leftarm = new WPI_TalonSRX(12); // initialize left motors on port 12
 		rightarm = new WPI_TalonSRX(3);
 	}
 	
-	/**
-	 * Raises arm completely up
-	 * @param secondaryStick
-	 */
-	public void raiseArmUp(Joystick secondaryStick) {
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 43953.00) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			if(secondaryStick.getRawButtonPressed(7)) {
-				rightarm.set(0);
-				leftarm.set(0);
-			}
-		}
-	}
-
-	public void raiseArm(){
-		leftarm.set(.5);
-		rightarm.set(-.5);
-	}
-	/**
-	 * Puts the arm back in resting position
-	 * @param secondaryStick
-	 */
-	public void resetArm(Joystick secondaryStick) {
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 1000) {
-			leftarm.set(-0.1);
-			rightarm.set(0.1);
-			if(secondaryStick.getRawButtonPressed(7)) {
-				rightarm.set(0);
-				leftarm.set(0);
-			}
-		}
-	}
-
 	/**
 	 * Uses joysticks to raise arms
 	 * @param secondaryStick
@@ -61,6 +28,99 @@ public class Arm extends Subsystem {
 		//Uses Controller Joysticks to raiser/lower Arm
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
+	}
+
+	/**
+	 * Raises arm completely up
+	 * @param secondaryStick
+	 */
+
+	public void raiseArmLowHatch() {
+		//low hatch
+		while(armValue < 2665) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+	}
+public void raiseArmMidHatch() {
+		//mid hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17843) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+	public void raiseArmTopHatch() {
+		//top hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 39597) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+	public void raiseArmLowBall() {
+		//low ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10803) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+	public void raiseArmMidBall() {
+		//mid ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 27996) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+	public void raiseArmTopBall() {
+		//top ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 41586) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+	public void raiseArmCargoBall() {
+		//cargo ball
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17801) {
+			leftarm.set(0.5);
+			rightarm.set(-0.5);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
+	}
+
+	// public void raiseArm(){
+	// 	leftarm.set(.5);
+	// 	rightarm.set(-.5);
+	// }
+	/**
+	 * Puts the arm back in resting position
+	 * @param secondaryStick
+	 */
+	public void resetArm() {
+		//top hatch
+		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 0) {
+			leftarm.set(-0.1);
+			rightarm.set(0.1);
+			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		}
+		leftarm.set(0);
+		rightarm.set(0);
 	}
 
 	/**

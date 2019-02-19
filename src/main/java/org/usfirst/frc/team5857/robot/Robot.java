@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.SPI;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 
         try {
-            ahrs = new AHRS(SerialPort.Port.kMXP);
+            ahrs = new AHRS(SPI.Port.kMXP);
             ahrs.enableLogging(true);
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
