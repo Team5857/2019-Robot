@@ -18,6 +18,7 @@ public class Pneumatics extends Subsystem {
 		compressorOn = false;
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
+		sol1State = false;
 	}
 	
 	public void stopCompressor(){
@@ -37,33 +38,35 @@ public class Pneumatics extends Subsystem {
 		}
 	}
 	
-	
-	protected void initDefaultCommand() {}
-	
-	public void Pneumatic1Toggle()
-	{
+	public void Pneumatic1Toggle() {
 		if(solenoid1.get() == DoubleSolenoid.Value.kReverse) {
 			solenoid1.set(DoubleSolenoid.Value.kForward);
+			sol1State = true;
 		}
 		else {
 			solenoid1.set(DoubleSolenoid.Value.kReverse);
+			sol1State = false;
 		}
 	}
-
 	
 	public void Pneumatic1FWD()
 	{
 		solenoid1.set(DoubleSolenoid.Value.kForward);
+		sol1State = true;
 	}
 	
 	public void Pneumatic1REV()
 	{
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
+		sol1State = false;
 	}
 	
 	public boolean isCompressorOn(){
 		return compressorOn;
 	}
 
-	
+	public boolean solState(){
+		return sol1State;
+	}
+	protected void initDefaultCommand() {}
 }

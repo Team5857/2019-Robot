@@ -24,7 +24,7 @@ public class RaiseArmLowBall extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.arm.raiseArmLowBall(Robot.oi.getSecondaryStick());
+    Robot.arm.raiseArmLowBall();
   }
 
   // Make this return true when this Command no longer needs to run execute()

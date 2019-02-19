@@ -24,7 +24,7 @@ public class RaiseArmLowHatch extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.arm.raiseArmLowHatch(Robot.oi.getSecondaryStick());
+    Robot.arm.raiseArmLowHatch();
   }
 
   // Make this return true when this Command no longer needs to run execute()

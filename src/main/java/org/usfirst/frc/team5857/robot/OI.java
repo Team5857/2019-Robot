@@ -15,21 +15,21 @@ public class OI {
 		secondaryStick = new Joystick(1);	//Old XBOX Controller
 
 		//X-Box Controllers
-		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());	//Start
-		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());		//B
-		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());		//A
-		new JoystickButton(secondaryStick, 2).whenPressed(new ToggleIntake());	//B
-		new JoystickButton(secondaryStick, 3).whenPressed(new ToggleIntake());	//X
-		new JoystickButton(secondaryStick, 8).whenPressed(new ResetEncoder());	//Start
-		new JoystickButton(secondaryStick, 1).whenPressed(new RaiseArmLowHatch()); //A
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmMidHatch());
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmTopHatch());
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmLowBall());
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmMidBall());	
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmTopBall());
-		new JoystickButton(secondaryStick, ).whenPressed(new RaiseArmCargoBall());
-		new JoystickButton(secondaryStick, ).whenPressed(new ResetArm());		//Y
-		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());			//Y
+		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());		//Start
+		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());			//B
+		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());			//A
+		new JoystickButton(driveStick, 5).whenPressed(new ToggleIntake());			//Left Bumper	
+		new JoystickButton(driveStick, 6).whenPressed(new ToggleIntake());			//Right Bumper
+		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());				//Y
+		new JoystickButton(secondaryStick, 5).whenPressed(new ResetEncoder());		//Joystick Button 5
+		new JoystickButton(secondaryStick, 11).whenPressed(new RaiseArmLowHatch());	//Side Button 11
+		new JoystickButton(secondaryStick, 9).whenPressed(new RaiseArmMidHatch());	//Side Button 9
+		new JoystickButton(secondaryStick, 7).whenPressed(new RaiseArmTopHatch());	//Side Button 7
+		new JoystickButton(secondaryStick, 12).whenPressed(new RaiseArmLowBall());	//Side Button 12
+		new JoystickButton(secondaryStick, 10).whenPressed(new RaiseArmMidBall());	//Side Button 10	
+		new JoystickButton(secondaryStick, 8).whenPressed(new RaiseArmTopBall());	//Side Button 8
+		new JoystickButton(secondaryStick, 4).whenPressed(new RaiseArmCargoBall());	//Joystick Button 3
+		new JoystickButton(secondaryStick, 1).whenPressed(new ResetArm());			//Trigger
 	}
 
 	public Joystick getDriveStick() {

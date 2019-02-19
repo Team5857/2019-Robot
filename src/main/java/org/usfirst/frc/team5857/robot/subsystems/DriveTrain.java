@@ -37,8 +37,7 @@ public class DriveTrain extends Subsystem {
 		allMotors = new DifferentialDrive(leftMotors, rightMotors);
 	}
 				
-	public void tankDrive(Joystick driveStick)
-	{
+	public void tankDrive(Joystick driveStick) {
 		//Specializes the two joysticks for either driving or turning
 		// allMotors.arcadeDrive(driveStick.getRawAxis(3), driveStick.getRawAxis(0));
 		// allMotors.arcadeDrive(-driveStick.getRawAxis(2), driveStick.getRawAxis(0));
@@ -70,14 +69,8 @@ public class DriveTrain extends Subsystem {
 		allMotors.arcadeDrive(0, 0);
 	}
 
-	public void driveWithSpeedSteer(double speed, double steer){
+	public void driveWithSpeedSteer(double speed, double steer) {
 		allMotors.arcadeDrive(speed, steer);
-	}
-	
-	public void driveRobotFixedSpeed(double left, double right){
-		allMotors.tankDrive(-left, right);
-		// leftMotors.set(-left);
-		// rightMotors.set(right);
 	}
 
 	public void stopRobot() {

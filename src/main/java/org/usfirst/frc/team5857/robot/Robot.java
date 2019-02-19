@@ -166,7 +166,8 @@ public class Robot extends TimedRobot {
 	 */
 	public void teleopPeriodic() {
 		boolean auto = driveController.getXButton();
-		boolean armUp = driveController.getAButtonPressed();
+		// boolean topHatch = secondaryController.getAButtonPressed();
+		// boolean armUp = driveController.getAButtonPressed();
 
 		//Updates Limelight Values
 		UpdateLimelightTracking();
@@ -180,12 +181,14 @@ public class Robot extends TimedRobot {
 				drivetrain.driveWithSpeedSteer(0, 0);
 			}
 		}
-
-		if(armUp) {
-			while(arm.getEncoderValue() < 43953){
-				arm.raiseArm();
-			}
-		}
+		// if(topHatch){
+		// 	arm.raiseArmTopHatch(armEncoder);
+		// }
+		// if(armUp) {
+		// 	while(arm.getEncoderValue() < 43953){
+		// 		arm.raiseArm();
+		// 	}
+		// }
 
 		log();
 		operatorControl();
@@ -205,7 +208,7 @@ public class Robot extends TimedRobot {
 	public void UpdateLimelightTracking(){
 		final double STEER_K = 0.03;                    // how hard to turn toward the target
         final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
-        final double DESIRED_TARGET_AREA = 4;        // Area of the target when the robot reaches the wall
+        final double DESIRED_TARGET_AREA = 23;        // Area of the target when the robot reaches the wall
         final double MAX_DRIVE = 0.7;                  // Simple speed limit so we don't drive too fast
 
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
@@ -281,9 +284,11 @@ public class Robot extends TimedRobot {
 		//Prints Speed of Right Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
-		SmartDashboard.putString("DB/String 1", "Arm Encoder: " + String.format( "%.2f", arm.getEncoderValue()));
+		SmartDashboard.putString("DB/String 1", "Something: " + String.format( "%.2f", arm.getEncoderValue()));
 		//Prints compressor state
 		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
+		//Prints solenoid state
+		SmartDashboard.putBoolean("Solenoid State", pneumatic.solState());
 		Timer.delay(0.05);
 	}
 }

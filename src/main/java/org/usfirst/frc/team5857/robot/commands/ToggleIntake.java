@@ -13,7 +13,7 @@ public class ToggleIntake extends Command {
 	protected void initialize() {}
 	
 	protected void execute() {
-		Robot.intake.toggleIntake(Robot.oi.getSecondaryStick());
+		Robot.intake.toggleIntake(Robot.oi.getDriveStick(), Robot.oi.getSecondaryStick());
 	}
 	
 	protected boolean isFinished() {
