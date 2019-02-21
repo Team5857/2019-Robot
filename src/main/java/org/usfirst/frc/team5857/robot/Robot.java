@@ -186,13 +186,13 @@ public class Robot extends TimedRobot {
 			if(limelightHasTarget) drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);
 			else drivetrain.driveWithSpeedSteer(0, 0);
 		}
-		if(lowHatch) {if(armEncoder < 2665) {arm.moveArm("up");}}
-		if(midHatch) {if(armEncoder < 17843) {arm.moveArm("up");}}
-		if(topHatch) {if(armEncoder < 39597) {arm.moveArm("up");}}
-		if(lowBall) {if(armEncoder < 10803) {arm.moveArm("up");}}
-		if(midBall) {if(armEncoder < 27996) {arm.moveArm("up");}}
-		if(topBall) {if(armEncoder < 41586) {arm.moveArm("up");}}
-		if(cargoBall) {if(armEncoder < 17801) {arm.moveArm("up");}}
+		if(lowHatch) {if(armEncoder < 2665) {arm.moveArm("up");} else if(armEncoder > 2665){arm.moveArm("down");}}
+		if(midHatch) {if(armEncoder < 17843) {arm.moveArm("up");} else if(armEncoder > 17843){arm.moveArm("down");}}
+		if(topHatch) {if(armEncoder < 39597) {arm.moveArm("up");} else if(armEncoder > 39597){arm.moveArm("down");}}
+		if(lowBall) {if(armEncoder < 10803) {arm.moveArm("up");} else if(armEncoder > 10803){arm.moveArm("down");}}
+		if(midBall) {if(armEncoder < 27996) {arm.moveArm("up");} else if(armEncoder > 27996){arm.moveArm("down");}}
+		if(topBall) {if(armEncoder < 41586) {arm.moveArm("up");} else if(armEncoder > 41586){arm.moveArm("down");}}
+		if(cargoBall) {if(armEncoder < 17801) {arm.moveArm("up");} else if(armEncoder > 17801){arm.moveArm("down");}}
 		if(resetArm) {if(armEncoder > 500) {arm.moveArm("down");}}
 
 		log();
