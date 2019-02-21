@@ -62,7 +62,6 @@ public class DriveTrain extends Subsystem {
 		allMotors.tankDrive(-leftComp*speed, -rightComp*speed);
 		// leftMotors.set(-leftComp*speed);
 		// rightMotors.set(-rightComp*speed);	
-		
 		Timer.delay(seconds);
 		
 		//stop

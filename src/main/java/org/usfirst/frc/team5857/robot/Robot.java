@@ -37,10 +37,13 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Joystick;
+import org.usfirst.frc.team5857.robot.commands.*;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
-	private XboxController secondaryController = new XboxController(1);
+	private Joystick secondaryController = new Joystick(1);
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static Intake intake;
@@ -166,29 +169,31 @@ public class Robot extends TimedRobot {
 	 */
 	public void teleopPeriodic() {
 		boolean auto = driveController.getXButton();
-		// boolean topHatch = secondaryController.getAButtonPressed();
-		// boolean armUp = driveController.getAButtonPressed();
+		boolean lowHatch = secondaryController.getRawButtonPressed(11);
+		boolean midHatch = secondaryController.getRawButtonPressed(9);
+		boolean topHatch = secondaryController.getRawButtonPressed(7);
+		boolean lowBall = secondaryController.getRawButtonPressed(12);
+		boolean midBall = secondaryController.getRawButtonPressed(10);
+		boolean topBall = secondaryController.getRawButtonPressed(8);
+		boolean cargoBall = secondaryController.getRawButtonPressed(4);
+		boolean resetArm = secondaryController.getRawButtonPressed(1);
 
 		//Updates Limelight Values
 		UpdateLimelightTracking();
 		
 		//Checks to see if X button is pressed
 		if(auto){
-			if(limelightHasTarget){
-				drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);
-			}
-			else{
-				drivetrain.driveWithSpeedSteer(0, 0);
-			}
+			if(limelightHasTarget) drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);
+			else drivetrain.driveWithSpeedSteer(0, 0);
 		}
-		// if(topHatch){
-		// 	arm.raiseArmTopHatch(armEncoder);
-		// }
-		// if(armUp) {
-		// 	while(arm.getEncoderValue() < 43953){
-		// 		arm.raiseArm();
-		// 	}
-		// }
+		if(lowHatch) {if(armEncoder < 2665) {arm.moveArm("up");}}
+		if(midHatch) {if(armEncoder < 17843) {arm.moveArm("up");}}
+		if(topHatch) {if(armEncoder < 39597) {arm.moveArm("up");}}
+		if(lowBall) {if(armEncoder < 10803) {arm.moveArm("up");}}
+		if(midBall) {if(armEncoder < 27996) {arm.moveArm("up");}}
+		if(topBall) {if(armEncoder < 41586) {arm.moveArm("up");}}
+		if(cargoBall) {if(armEncoder < 17801) {arm.moveArm("up");}}
+		if(resetArm) {if(armEncoder > 500) {arm.moveArm("down");}}
 
 		log();
 		operatorControl();
@@ -237,6 +242,7 @@ public class Robot extends TimedRobot {
 		}
 		limelightDrive = drive_cmd;
 
+		//Update Encoder
 		armEncoder = arm.getEncoderValue();
 		//post to smart dashboard periodically
 		SmartDashboard.putNumber("LimelightX", tx);
@@ -284,7 +290,7 @@ public class Robot extends TimedRobot {
 		//Prints Speed of Right Side in Dashboard (Tab: Basic)
 		SmartDashboard.putString("DB/String 5", "Speed (R): " + String.format( "%.2f", (drivetrain.getRightSpeed() * 100)) + "%");
 		//Prints Encoder value for arm in Dashboard (Tab: Basic)	
-		SmartDashboard.putString("DB/String 1", "Something: " + String.format( "%.2f", arm.getEncoderValue()));
+		SmartDashboard.putString("DB/String 1", "Encoder of the Arm: " + String.format( "%.2f", arm.getEncoderValue()));
 		//Prints compressor state
 		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
 		//Prints solenoid state

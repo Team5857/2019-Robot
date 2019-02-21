@@ -35,93 +35,100 @@ public class Arm extends Subsystem {
 	 * @param secondaryStick
 	 */
 
-	public void raiseArmLowHatch() {
-		//low hatch
-		while(armValue < 2665) {
+	public void moveArm(String direction){
+		if(direction.equals("up")){
 			leftarm.set(0.5);
 			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+		} else if(direction.equals("down")){
+			leftarm.set(-0.5);
+			rightarm.set(0.5);
 		}
 	}
-public void raiseArmMidHatch() {
-		//mid hatch
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17843) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
-	public void raiseArmTopHatch() {
-		//top hatch
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 39597) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
-	public void raiseArmLowBall() {
-		//low ball
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10803) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
-	public void raiseArmMidBall() {
-		//mid ball
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 27996) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
-	public void raiseArmTopBall() {
-		//top ball
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 41586) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
-	public void raiseArmCargoBall() {
-		//cargo ball
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17801) {
-			leftarm.set(0.5);
-			rightarm.set(-0.5);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
+// 	public void raiseArmLowHatch() {
+// 		//low hatch
+// 		while(armValue < 2665) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// public void raiseArmMidHatch() {
+// 		//mid hatch
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17843) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// 	public void raiseArmTopHatch() {
+// 		//top hatch
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 39597) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// 	public void raiseArmLowBall() {
+// 		//low ball
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 10803) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// 	public void raiseArmMidBall() {
+// 		//mid ball
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 27996) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// 	public void raiseArmTopBall() {
+// 		//top ball
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 41586) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
+// 	public void raiseArmCargoBall() {
+// 		//cargo ball
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) < 17801) {
+// 			leftarm.set(0.5);
+// 			rightarm.set(-0.5);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
 
-	// public void raiseArm(){
-	// 	leftarm.set(.5);
-	// 	rightarm.set(-.5);
-	// }
-	/**
-	 * Puts the arm back in resting position
-	 * @param secondaryStick
-	 */
-	public void resetArm() {
-		//top hatch
-		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 0) {
-			leftarm.set(-0.1);
-			rightarm.set(0.1);
-			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
-		}
-		leftarm.set(0);
-		rightarm.set(0);
-	}
+// 	/**
+// 	 * Puts the arm back in resting position
+// 	 * @param secondaryStick
+// 	 */
+// 	public void resetArm() {
+// 		//top hatch
+// 		while(((BaseMotorController) rightarm).getSelectedSensorPosition(0) > 0) {
+// 			leftarm.set(-0.1);
+// 			rightarm.set(0.1);
+// 			armValue = ((BaseMotorController) rightarm).getSelectedSensorPosition(0);
+// 		}
+// 		leftarm.set(0);
+// 		rightarm.set(0);
+// 	}
 
 	/**
 	 * Sets encoder value to 0

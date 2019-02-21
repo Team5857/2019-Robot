@@ -21,15 +21,6 @@ public class OI {
 		new JoystickButton(driveStick, 5).whenPressed(new ToggleIntake());			//Left Bumper	
 		new JoystickButton(driveStick, 6).whenPressed(new ToggleIntake());			//Right Bumper
 		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());				//Y
-		new JoystickButton(secondaryStick, 5).whenPressed(new ResetEncoder());		//Joystick Button 5
-		new JoystickButton(secondaryStick, 11).whenPressed(new RaiseArmLowHatch());	//Side Button 11
-		new JoystickButton(secondaryStick, 9).whenPressed(new RaiseArmMidHatch());	//Side Button 9
-		new JoystickButton(secondaryStick, 7).whenPressed(new RaiseArmTopHatch());	//Side Button 7
-		new JoystickButton(secondaryStick, 12).whenPressed(new RaiseArmLowBall());	//Side Button 12
-		new JoystickButton(secondaryStick, 10).whenPressed(new RaiseArmMidBall());	//Side Button 10	
-		new JoystickButton(secondaryStick, 8).whenPressed(new RaiseArmTopBall());	//Side Button 8
-		new JoystickButton(secondaryStick, 4).whenPressed(new RaiseArmCargoBall());	//Joystick Button 3
-		new JoystickButton(secondaryStick, 1).whenPressed(new ResetArm());			//Trigger
 	}
 
 	public Joystick getDriveStick() {
