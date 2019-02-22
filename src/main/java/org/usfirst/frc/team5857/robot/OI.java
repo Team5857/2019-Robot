@@ -17,7 +17,7 @@ public class OI {
 		//X-Box Controllers
 		new JoystickButton(driveStick, 8).whenPressed(new ToggleCompressor());		//Start
 		new JoystickButton(driveStick, 2).whenPressed(new Pneumatic1TOG());			//B
-		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic1REV());			//A
+		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic2TOG());			//A
 		new JoystickButton(driveStick, 5).whenPressed(new ToggleIntake());			//Left Bumper	
 		new JoystickButton(driveStick, 6).whenPressed(new ToggleIntake());			//Right Bumper
 		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());				//Y

@@ -294,7 +294,8 @@ public class Robot extends TimedRobot {
 		//Prints compressor state
 		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
 		//Prints solenoid state
-		SmartDashboard.putBoolean("Solenoid State", pneumatic.solState());
+		SmartDashboard.putBoolean("Solenoid1 State", pneumatic.sol1State());
+		SmartDashboard.putBoolean("Solenoid2 State", pneumatic.sol2State());
 		Timer.delay(0.05);
 	}
 }
