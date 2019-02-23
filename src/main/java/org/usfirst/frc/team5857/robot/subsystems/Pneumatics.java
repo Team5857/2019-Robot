@@ -18,13 +18,13 @@ public class Pneumatics extends Subsystem {
 	{
 		compressor = new Compressor(0);
 		solenoid1 = new DoubleSolenoid(0, 1);
-		solenoid2 = new Solenoid(4);
+		solenoid2 = new Solenoid(3);
 		compressorOn = false;
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
 		sol1State = false;
-		solenoid2.set(true);
-		sol2State = true;
+		solenoid2.set(false);
+		sol2State = false;
 
 	}
 	
@@ -57,13 +57,13 @@ public class Pneumatics extends Subsystem {
 	}
 
 	public void Pneumatic2Toggle() {
-		if(solenoid2.get()) {
-			solenoid2.set(false);
-			sol2State = false;
-		}
-		else {
+		if(!solenoid2.get()) {
 			solenoid2.set(true);
 			sol2State = true;
+		}
+		else {
+			solenoid2.set(false);
+			sol2State = false;
 		}
 	}
 	
