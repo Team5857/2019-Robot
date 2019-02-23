@@ -18,7 +18,7 @@ public class Pneumatics extends Subsystem {
 	{
 		compressor = new Compressor(0);
 		solenoid1 = new DoubleSolenoid(0, 1);
-		solenoid2 = new Solenoid(4);
+		solenoid2 = new Solenoid(3);
 		compressorOn = false;
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
