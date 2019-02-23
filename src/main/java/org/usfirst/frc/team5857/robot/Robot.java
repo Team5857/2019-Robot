@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
-	private Joystick secondaryController = new Joystick(1);
+	private XboxController secondaryController = new XboxController(1);
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static Intake intake;
@@ -53,7 +53,6 @@ public class Robot extends TimedRobot {
 	public static Timer timer;
 	public static double errorX;
 	public static double areaTarget;
-	public static DriveTrain driveTrain;
 	public static OI oi;
 
 	//Limelight Values
@@ -177,7 +176,7 @@ public class Robot extends TimedRobot {
 		boolean topBall = secondaryController.getRawButtonPressed(8);
 		boolean cargoBall = secondaryController.getRawButtonPressed(4);
 		boolean resetArm = secondaryController.getRawButtonPressed(1);
-
+		
 		//Updates Limelight Values
 		UpdateLimelightTracking();
 		
