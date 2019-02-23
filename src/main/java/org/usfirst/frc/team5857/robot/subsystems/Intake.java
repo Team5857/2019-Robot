@@ -22,11 +22,11 @@ public class Intake extends Subsystem {
 	}
 	
 	public void toggleIntakeSpin(Joystick secondaryStick){
-	 	intakeSpin.set(-secondaryStick.getRawAxis(0));
+	 	intakeSpin.set(-secondaryStick.getRawAxis(5));
 	}
 
 	public void toggleIntake(Joystick driveStick, Joystick secondaryStick) {
-		intakeSpin.set(-secondaryStick.getRawAxis(0));
+		intakeSpin.set(-secondaryStick.getRawAxis(5));
 		
 		if(driveStick.getRawButtonPressed(5)) {
 			if(intake1Active) {

@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Arm extends Subsystem {
 	public static SpeedController leftarm;
 	public static SpeedController rightarm;
+	public static SpeedController  intakeSpin;
 	public static double armValue;
 
 	public Arm() {
 		leftarm = new WPI_TalonSRX(12); // initialize left motors on port 12
 		rightarm = new WPI_TalonSRX(3);
+		intakeSpin = new WPI_TalonSRX(2);
 	}
 	
 	/**
@@ -26,8 +28,17 @@ public class Arm extends Subsystem {
 	 */
 	public void toggleArm(Joystick secondaryStick) {
 		//Uses Controller Joysticks to raiser/lower Arm
+		while(secondaryStick.getRawAxis(1) > 0){
 		leftarm.set(-secondaryStick.getRawAxis(1));				
 		rightarm.set(secondaryStick.getRawAxis(1));
+		intakeSpin.set(0.0001);
+		}
+		
+		while(secondaryStick.getRawAxis(1) < 0){
+			leftarm.set(-secondaryStick.getRawAxis(1));
+			rightarm.set(secondaryStick.getRawAxis(1));
+			intakeSpin.set(-0.0001);
+		}
 	}
 
 	/**
@@ -39,9 +50,11 @@ public class Arm extends Subsystem {
 		if(direction.equals("up")){
 			leftarm.set(0.5);
 			rightarm.set(-0.5);
+			intakeSpin.set(0.0001);
 		} else if(direction.equals("down")){
 			leftarm.set(-0.5);
 			rightarm.set(0.5);
+			intakeSpin.set(-0.0001);
 		}
 	}
 // 	public void raiseArmLowHatch() {

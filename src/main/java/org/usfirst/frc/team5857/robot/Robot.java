@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Robot extends TimedRobot {
 	private XboxController driveController = new XboxController(0);
-	private Joystick secondaryController = new Joystick(1);
+	private XboxController secondaryController = new XboxController(1);
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static Intake intake;
@@ -53,7 +53,6 @@ public class Robot extends TimedRobot {
 	public static Timer timer;
 	public static double errorX;
 	public static double areaTarget;
-	public static DriveTrain driveTrain;
 	public static OI oi;
 
 	//Limelight Values
@@ -293,7 +292,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("DB/String 1", "Encoder of the Arm: " + String.format( "%.2f", arm.getEncoderValue()));
 		//Prints compressor state
 		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
-		//Prints solenoid state
+		//Prints solenoid states
 		SmartDashboard.putBoolean("Solenoid1 State", pneumatic.sol1State());
 		SmartDashboard.putBoolean("Solenoid2 State", pneumatic.sol2State());
 		Timer.delay(0.05);

@@ -10,17 +10,14 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.*;
-
-import org.usfirst.frc.team5857.robot.*;
 
 public class DriveTrain extends Subsystem {
 	public static SpeedController left1;
 	public static SpeedController left2;
 	public static SpeedController right1;
 	public static SpeedController right2;
-	public static SpeedControllerGroup leftMotors;
-	public static SpeedControllerGroup rightMotors;
+	public SpeedControllerGroup leftMotors;
+	public SpeedControllerGroup rightMotors;
 	public static DifferentialDrive allMotors;
 
 	//PID
@@ -45,7 +42,7 @@ public class DriveTrain extends Subsystem {
 
 		
 		//Hugh Mungus Brain Mode
-		// allMotors.tankDrive(-driveStick.getRawAxis(1), -driveStick.getRawAxis(5));
+	 	// allMotors.tankDrive(-driveStick.getRawAxis(1), -driveStick.getRawAxis(5));
 
 		//1900's
 		// leftMotors.set(-driveStick.getRawAxis(1));
