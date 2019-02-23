@@ -176,7 +176,7 @@ public class Robot extends TimedRobot {
 		boolean topBall = secondaryController.getRawButtonPressed(8);
 		boolean cargoBall = secondaryController.getRawButtonPressed(4);
 		boolean resetArm = secondaryController.getRawButtonPressed(1);
-		
+
 		//Updates Limelight Values
 		UpdateLimelightTracking();
 		
@@ -292,7 +292,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("DB/String 1", "Encoder of the Arm: " + String.format( "%.2f", arm.getEncoderValue()));
 		//Prints compressor state
 		SmartDashboard.putBoolean("Compressor On", pneumatic.isCompressorOn());
-		//Prints solenoid state
+		//Prints solenoid states
 		SmartDashboard.putBoolean("Solenoid1 State", pneumatic.sol1State());
 		SmartDashboard.putBoolean("Solenoid2 State", pneumatic.sol2State());
 		Timer.delay(0.05);

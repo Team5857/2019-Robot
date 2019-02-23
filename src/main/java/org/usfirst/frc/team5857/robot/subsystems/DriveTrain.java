@@ -42,17 +42,17 @@ public class DriveTrain extends Subsystem {
 
 		
 		//Hugh Mungus Brain Mode
-	 	allMotors.tankDrive(-driveStick.getRawAxis(1), -driveStick.getRawAxis(5));
+	 	// allMotors.tankDrive(-driveStick.getRawAxis(1), -driveStick.getRawAxis(5));
 
 		//1900's
 		// leftMotors.set(-driveStick.getRawAxis(1));
 		// rightMotors.set(driveStick.getRawAxis(5));
 		
 		//Cave Man Style
-		// left1.set(-driveStick.getRawAxis(1));
-		// left2.set(-driveStick.getRawAxis(1));
-		// right1.set(driveStick.getRawAxis(5));
-		// right2.set(driveStick.getRawAxis(5));
+		left1.set(-driveStick.getRawAxis(1));
+		left2.set(-driveStick.getRawAxis(1));
+		right1.set(driveStick.getRawAxis(5));
+		right2.set(driveStick.getRawAxis(5));
 	}
 
 	public void autoDriveAtSpeed(double speed, double leftComp, double rightComp, double seconds) {

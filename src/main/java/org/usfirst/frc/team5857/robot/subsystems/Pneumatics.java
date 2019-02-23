@@ -8,6 +8,7 @@ public class Pneumatics extends Subsystem {
 	
 	Compressor compressor;
 	DoubleSolenoid solenoid1, solenoid2;
+
 	public static boolean sol1State, sol2State; //true = forward, false = backward
 	public static boolean compressorOn;
 	
