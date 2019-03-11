@@ -48,17 +48,19 @@ public class Robot extends TimedRobot {
 	public static Arm arm;
 	public static Intake intake;
 	public static AHRS ahrs;
-	public PowerDistributionPanel pdp;
+	public static PowerDistributionPanel pdp;
 	public static Pneumatics pneumatic;
-	public static Timer timer;
-	public static double errorX;
-	public static double areaTarget;
+	
 	public static OI oi;
+	public static Timer timer;
+	public double errorX;
+	public double areaTarget;
 
 	//Limelight Values
 	public boolean limelightHasTarget = false;
 	public double limelightDrive = 0.0;
 	public double limelightSteer = 0.0;
+	public int camMode = 0;
 
 	//NavX Values
 	public double angleOfRobot = 0; 
@@ -67,7 +69,7 @@ public class Robot extends TimedRobot {
 	public double armEncoder = 0;
 
 
-	Command autonomousCommand, Auto_BeginLeft, Auto_BeginMid, Auto_BeginRight;
+	Command autonomousCommand;
 	SendableChooser chooser;
 	
 	public void robotInit() {
@@ -97,26 +99,26 @@ public class Robot extends TimedRobot {
 		pneumatic = new Pneumatics();
 		oi = new OI();
 
-        try {
-            ahrs = new AHRS(SPI.Port.kMXP);
-            ahrs.enableLogging(true);
-        } catch (RuntimeException ex ) {
-            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-        }
+        // try {
+        //     ahrs = new AHRS(SPI.Port.kMXP);
+        //     ahrs.enableLogging(true);
+        // } catch (RuntimeException ex ) {
+        //     DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        // }
 
 		//set values
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
 		NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
-		
+
 		pdp.clearStickyFaults();
 
 		chooser = new SendableChooser();
 		SmartDashboard.putData("Auto mode", chooser);
 
 		CameraServer.getInstance().startAutomaticCapture();
-		//disable compressor
-		pneumatic.stopCompressor();
+		//enable compressor
+		pneumatic.startCompressor();
 		}
 
 	/**
@@ -167,35 +169,51 @@ public class Robot extends TimedRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		boolean toggleCamMode = secondaryController.getXButtonPressed();
 		boolean auto = driveController.getXButton();
-		boolean lowHatch = secondaryController.getRawButtonPressed(11);
-		boolean midHatch = secondaryController.getRawButtonPressed(9);
-		boolean topHatch = secondaryController.getRawButtonPressed(7);
-		boolean lowBall = secondaryController.getRawButtonPressed(12);
-		boolean midBall = secondaryController.getRawButtonPressed(10);
-		boolean topBall = secondaryController.getRawButtonPressed(8);
-		boolean cargoBall = secondaryController.getRawButtonPressed(4);
-		boolean resetArm = secondaryController.getRawButtonPressed(1);
-
+		boolean creep = driveController.getRawButton(7);
+		
 		//Updates Limelight Values
 		UpdateLimelightTracking();
-		
 		//Checks to see if X button is pressed
 		if(auto){
-			if(limelightHasTarget) drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);
-			else drivetrain.driveWithSpeedSteer(0, 0);
+			if(limelightHasTarget) {drivetrain.driveWithSpeedSteer(limelightDrive, limelightSteer);}
+			else {drivetrain.driveWithSpeedSteer(0, 0);}
 		}
-		if(lowHatch) {if(armEncoder < 2665) {arm.moveArm("up");} else if(armEncoder > 2665){arm.moveArm("down");}}
-		if(midHatch) {if(armEncoder < 17843) {arm.moveArm("up");} else if(armEncoder > 17843){arm.moveArm("down");}}
-		if(topHatch) {if(armEncoder < 39597) {arm.moveArm("up");} else if(armEncoder > 39597){arm.moveArm("down");}}
-		if(lowBall) {if(armEncoder < 10803) {arm.moveArm("up");} else if(armEncoder > 10803){arm.moveArm("down");}}
-		if(midBall) {if(armEncoder < 27996) {arm.moveArm("up");} else if(armEncoder > 27996){arm.moveArm("down");}}
-		if(topBall) {if(armEncoder < 41586) {arm.moveArm("up");} else if(armEncoder > 41586){arm.moveArm("down");}}
-		if(cargoBall) {if(armEncoder < 17801) {arm.moveArm("up");} else if(armEncoder > 17801){arm.moveArm("down");}}
-		if(resetArm) {if(armEncoder > 500) {arm.moveArm("down");}}
+
+		if(creep){
+			drivetrain.driveWithSpeedSteer(0.5,0);
+		}
+
+		if(toggleCamMode){
+			if(camMode == 0){
+				NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+				camMode = 1;
+			} else{
+				NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+				camMode = 0;
+			}
+		}
+		// boolean lowHatch = secondaryController.getRawButtonPressed(11);
+		// boolean midHatch = secondaryController.getRawButtonPressed(9);
+		// boolean topHatch = secondaryController.getRawButtonPressed(7);
+		// boolean lowBall = secondaryController.getRawButtonPressed(12);
+		// boolean midBall = secondaryController.getRawButtonPressed(10);
+		// boolean topBall = secondaryController.getRawButtonPressed(8);
+		// boolean cargoBall = secondaryController.getRawButtonPressed(4);
+		// boolean resetArm = secondaryController.getRawButtonPressed(1);
+
+		// if(lowHatch) {if(armEncoder < 2665) {arm.moveArm("up");} else if(armEncoder > 2665){arm.moveArm("down");}}
+		// if(midHatch) {if(armEncoder < 17843) {arm.moveArm("up");} else if(armEncoder > 17843){arm.moveArm("down");}}
+		// // if(topHatch) {if(armEncoder < 39597) {arm.moveArm("up");} else if(armEncoder > 39597){arm.moveArm("down");}}
+		// if(lowBall) {if(armEncoder < 10803) {arm.moveArm("up");} else if(armEncoder > 10803){arm.moveArm("down");}}
+		// if(midBall) {if(armEncoder < 27996) {arm.moveArm("up");} else if(armEncoder > 27996){arm.moveArm("down");}}
+		// if(topBall) {if(armEncoder < 41586) {arm.moveArm("up");} else if(armEncoder > 41586){arm.moveArm("down");}}
+		// if(cargoBall) {if(armEncoder < 17801) {arm.moveArm("up");} else if(armEncoder > 17801){arm.moveArm("down");}}
+		// if(resetArm) {if(armEncoder > 500) {arm.moveArm("down");}}
 
 		log();
-		operatorControl();
+		// operatorControl();
 		Scheduler.getInstance().run();
 	}
 
@@ -211,8 +229,8 @@ public class Robot extends TimedRobot {
 	 */
 	public void UpdateLimelightTracking(){
 		final double STEER_K = 0.03;                    // how hard to turn toward the target
-        final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
-        final double DESIRED_TARGET_AREA = 23;        // Area of the target when the robot reaches the wall
+        final double DRIVE_K = 0.36;                    // how hard to drive fwd toward the target
+        final double DESIRED_TARGET_AREA = 6;        // Area of the target when the robot reaches the wall
         final double MAX_DRIVE = 0.7;                  // Simple speed limit so we don't drive too fast
 
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
@@ -220,7 +238,7 @@ public class Robot extends TimedRobot {
         double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
         double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
-		if(tv <1.0){
+		if(tv < 1.0){
 			limelightHasTarget = false;
 			limelightDrive = 0;
 			limelightSteer = 0;
@@ -235,10 +253,7 @@ public class Robot extends TimedRobot {
 
 		//Drive Forward
 		double drive_cmd = (DESIRED_TARGET_AREA - ta) * DRIVE_K;
-
-		if(drive_cmd > MAX_DRIVE){
-			drive_cmd = MAX_DRIVE;
-		}
+		if(drive_cmd > MAX_DRIVE) drive_cmd = MAX_DRIVE;
 		limelightDrive = drive_cmd;
 
 		//Update Encoder
@@ -257,7 +272,6 @@ public class Robot extends TimedRobot {
 	 * Updates NavX Values For Driving Purposes
 	 */
 	public void operatorControl() {
-		
 		boolean zero_yaw_pressed = driveController.getYButton();
 		if ( zero_yaw_pressed ) {
 			ahrs.zeroYaw();
@@ -271,16 +285,6 @@ public class Robot extends TimedRobot {
 		/*Prints Gyro Value 														*/
 		SmartDashboard.putNumber("Angle", ahrs.getAngle());
 		angleOfRobot = ahrs.getAngle();
-
-		/* Display estimates of velocity/displacement.  Note that these values are  */
-		/* not expected to be accurate enough for estimating robot position on a    */
-		/* FIRST FRC Robotics Field, due to accelerometer noise and the compounding */
-		/* of these errors due to single (velocity) integration and especially      */
-		/* double (displacement) integration.                                       */
-		SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
-		SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
-		SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
-		SmartDashboard.putNumber(   "Displacement_Y",       ahrs.getDisplacementY());
 	}
 
 	public void log() {

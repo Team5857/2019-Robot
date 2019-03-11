@@ -7,14 +7,15 @@
 
 package org.usfirst.frc.team5857.robot.commands;
 
-import org.usfirst.frc.team5857.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.networktables.*;
 
-public class StopRobot extends Command {
-  public StopRobot() {
-    super("StopRobot");
-    requires(Robot.drivetrain);
+public class switchCameraModes extends Command {
+  public int currentMode = 0;
+
+  public switchCameraModes() {
+    super("SwitchCameraModes");
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +26,14 @@ public class StopRobot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drivetrain.stopRobot();
+    if(currentMode == 0) {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+      currentMode = 1;
+    }
+    else {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+      currentMode = 0;
+    }  
   }
 
   // Make this return true when this Command no longer needs to run execute()

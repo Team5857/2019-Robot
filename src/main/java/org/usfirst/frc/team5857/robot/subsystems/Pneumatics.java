@@ -8,26 +8,31 @@ public class Pneumatics extends Subsystem {
 	
 	Compressor compressor;
 	DoubleSolenoid solenoid1, solenoid2;
-	public static boolean sol1State, sol2State; //true = forward, false = backward
-	public static boolean compressorOn;
+	public boolean sol1State, sol2State; //true = forward, false = backward
+	public boolean compressorOn;
 	
 	public Pneumatics()
 	{
 		compressor = new Compressor(0);
 		solenoid1 = new DoubleSolenoid(0, 1);
-		solenoid2 = new DoubleSolenoid(3, 4);
+		solenoid2 = new DoubleSolenoid(2, 3); 
 		compressorOn = false;
 		
 		solenoid1.set(DoubleSolenoid.Value.kReverse);
 		sol1State = false;
 		solenoid2.set(DoubleSolenoid.Value.kReverse);
-		sol2State = false;
+		sol2State = false; 
 
 	}
 	
 	public void stopCompressor(){
 		compressor.stop();
 		compressorOn = false;
+	}
+
+	public void startCompressor(){
+		compressor.start();
+		compressorOn = true;
 	}
 
 	public void toggleCompressor()

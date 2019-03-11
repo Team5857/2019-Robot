@@ -6,9 +6,8 @@ import org.usfirst.frc.team5857.robot.commands.*;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-	
-	public Joystick driveStick;
-	public Joystick secondaryStick;
+	//Joysticks
+	public Joystick driveStick, secondaryStick;
 	
 	public OI() { 
 		driveStick = new Joystick(0);		//New XBOX Controller
@@ -20,7 +19,7 @@ public class OI {
 		new JoystickButton(driveStick, 1).whenPressed(new Pneumatic2TOG());			//A
 		new JoystickButton(driveStick, 5).whenPressed(new ToggleIntake());			//Left Bumper	
 		new JoystickButton(driveStick, 6).whenPressed(new ToggleIntake());			//Right Bumper
-		new JoystickButton(driveStick, 4).whenPressed(new StopRobot());				//Y
+		// new JoystickButton(secondaryStick, 7).whenPressed(new switchCameraModes());		//Back Button 
 	}
 
 	public Joystick getDriveStick() {
