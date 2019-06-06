@@ -11,76 +11,51 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
-	public SpeedController intake1;
-	public SpeedController intake2;
-	public SpeedController intakeSpin;
-	public boolean intake1Active = false;
+	public SpeedController feeder, outtake, outtakeSlow;
+	public boolean feederActive, outtakeActive;
 
 	public Intake() {
-		intake1 = new WPI_TalonSRX(10); //bottom motor
-		intake2 = new WPI_TalonSRX(11); //top motor
-		intakeSpin = new WPI_TalonSRX(2);
+	feeder = new WPI_TalonSRX(15); 
+    outtake = new WPI_TalonSRX(0);
+    outtakeSlow = new WPI_TalonSRX(7);
+    feederActive = false;
+    outtakeActive = false;
 	}
-	
-	public void toggleIntakeSpin(Joystick secondaryStick){
-	 	intakeSpin.set(-secondaryStick.getRawAxis(5));
-	}
-	
-	// public void toggleIntakeSpin2(XboxController secondaryStick){
-	// 	intakeSpin.set(secondaryStick.getRawAxis(5));
-	// }
-	// public void toggleIntakeSpin1(double speed){
-	// 	intakeSpin.set(speed);
-	// }
 
-	public void toggleIntake(Joystick driveStick, Joystick secondaryStick) {
-		intakeSpin.set(-secondaryStick.getRawAxis(5));
-		
-		if(driveStick.getRawButtonPressed(5)) {
+	public void toggleIntake(Joystick driveStick) {
+		if(driveStick.getRawButtonPressed(1)) {
 			//Intake 
-			if(intake1Active) {
-				intake1Active = false;
+			if(feederActive) {
+				feederActive = false;
 			} else {
-				intake1Active = true;
+				feederActive = true;
 			}
-			if(intake1Active){
-				intake1.set(.3);
-				intake2.set(.3);
+			if(feederActive){
+				feeder.set(.3);
 			} else{
-				intake1.set(0);
-				intake2.set(0);
+				feeder.set(0);
 			}
 		}
-		if(driveStick.getRawButtonPressed(6)) {
+		if(driveStick.getRawButtonPressed(0)) {
 			//Outtake
-			if(intake1Active) {
-				intake1Active = false;
+			if(outtakeActive) {
+				outtakeActive = false;
 			} else {
-				intake1Active = true;
+				outtakeActive = true;
 			}
-			if(intake1Active){
-				intake1.set(-1);
-				intake2.set(-1);
+			if(outtakeActive){
+				outtake.set(.3);
 			} else{
-				intake1.set(0);
-				intake2.set(0);
+				outtake.set(0);
 			}
 		}
 	}
-
-	public SpeedController getIntakeSpin(){
-		return intakeSpin;
-	}
-	public boolean getIntakeSpeed1() {
-		return intake1.getInverted();
+	public boolean getOuttakeSpeed() {
+		return outtake.getInverted();
 	}
 
-	public boolean getIntakeSpeed2() {
-		return intake2.getInverted();
-	}
-
-	public double getIntakeSpinSpeed(){
-		return intakeSpin.get();
+	public boolean getFeederSpeed() {
+		return feeder.getInverted();
 	}
 	
 
