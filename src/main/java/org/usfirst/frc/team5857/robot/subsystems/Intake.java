@@ -21,7 +21,7 @@ public class Intake extends Subsystem {
 	}
 
 	public void toggleIntake(Joystick driveStick) {
-		if(driveStick.getRawButtonPressed(1)) {
+		if(driveStick.getRawButtonPressed(5)) { //Left Bumper
 			//Intake 
 			if(feederActive) {
 				feederActive = false;
@@ -34,7 +34,7 @@ public class Intake extends Subsystem {
 				feeder.set(0);
 			}
 		}
-		if(driveStick.getRawButtonPressed(0)) {
+		if(driveStick.getRawButtonPressed(6)) { //Right Bumper
 			//Outtake
 			if(outtakeActive) {
 				outtakeActive = false;
