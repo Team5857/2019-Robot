@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
-	public SpeedController feeder, outtake, outtakeSlow ;
+	public SpeedController feeder, outtake, outtakeSlow;
 	public boolean feederActive, outtakeActive;
 
 	public Intake() {
