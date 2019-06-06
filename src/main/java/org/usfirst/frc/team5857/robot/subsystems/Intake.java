@@ -10,14 +10,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
 	public SpeedController feeder, outtake, outtakeSlow;
-	public boolean feederActive, outtakeActive;
+	public boolean feederActive;
 //test
 	public Intake() {
 	feeder = new WPI_TalonSRX(15); 
     outtake = new WPI_TalonSRX(0);
     outtakeSlow = new WPI_TalonSRX(7);
     feederActive = false;
-    outtakeActive = false;
 	}
 
 	public void toggleIntake(Joystick driveStick) {
