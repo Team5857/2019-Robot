@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 	public SpeedController feeder, outtake, outtakeSlow;
 	public boolean feederActive, outtakeActive;
-
+//test
 	public Intake() {
 	feeder = new WPI_TalonSRX(15); 
     outtake = new WPI_TalonSRX(0);
