@@ -22,34 +22,27 @@ public class Intake extends Subsystem {
 
 	public void toggleIntake(Joystick driveStick) {
 		if(driveStick.getRawButtonPressed(5)) { //Left Bumper
-			//Intake 
+			//Feeder
 			if(feederActive) {
 				feederActive = false;
 			} else {
 				feederActive = true;
 			}
 			if(feederActive){
-				feeder.set(.3);
+				feeder.set(.3); //value in parentheses is percentage of power
 			} else{
 				feeder.set(0);
 			}
 		}
-		if(driveStick.getRawButtonPressed(6)) { //Right Bumper
-			//Outtake
-			if(outtakeActive) {
-				outtakeActive = false;
-			} else {
-				outtakeActive = true;
-			}
-			if(outtakeActive){
-				outtake.set(.3);
-			} else{
-				outtake.set(0);
-			}
-		}
+		outtake.set(driveStick.getRawAxis(2)); //left trigger
+		outtakeSlow.set(driveStick.getRawAxis(3)); //right trigger
 	}
-	public boolean getOuttakeSpeed() {
-		return outtake.getInverted();
+	public double getOuttakeSpeed() {
+		return outtake.get();
+	}
+
+	public double getOuttakeSlowSpeed(){
+		return outtakeSlow.get();
 	}
 
 	public boolean getFeederSpeed() {
